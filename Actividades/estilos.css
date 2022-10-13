@@ -1,0 +1,15 @@
+h1 {
+
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 30px;
+}
+
+strong {
+    color: red;
+}
+
+p {
+    color: chocolate;
+    font-size: 60px;
+    font-style: italic;
+}

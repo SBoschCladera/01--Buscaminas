@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ES">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablas de Multilpicar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=fire">
+    <script src="tablasMultiplicar.js"></script>
+    <script src="confetti.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div id="titulo">
+            <h1 class="font-effect-fire">NARUTABLAS</h1>
+        </div>
+        <div id="botonParaInicio"> <input type="button" id="botonInicio" value="Empezar" onclick="iniciarApp()"></div>
+        <div id="eleccionTabla" class="row"></div>
+        <div id="mostrarPregunta" class="row" aria-colspan="col-sm-12"></div>
+        <div id="mostrarResultado" class="row">
+            <div id="cambioTabla" class="row">
+                <div id="idDivBotonCambioTabla"><input type="button" id="botonCambiarDeTabla"
+                        style="visibility: hidden;" onclick="cambiarDeTabla()"></div>
+                <div id="siguiente"></div>
+            </div>
+            <div id="resultadoComprobacion"></div>
+        </div>
+        <div id="click"></div>
+    </div>
+</body>
+
+</html>
