@@ -9,71 +9,102 @@ maxFilas = prompt('Número de filas: ');
 maxColumnas = prompt('Número de columnas: ');
 minas = prompt('Número de minas a colocar: ');;
 
+iniciarApp();
+
 /*
 maxFilas = 5;
 maxColumnas = 5;
 minas = 10;
 */
 
-// Crea un array y lo rellena con espacios en blanco
-for (let fila = 0; fila < maxFilas; fila++) {
-    arrayTablero[fila] = [];
+// Inicia la aplicación
+function iniciarApp() {
 
-    for (let columna = 0; columna < maxColumnas; columna++) {
-        arrayTablero[fila][columna] = "-";
-    }
+    crearTablero(arrayTablero, maxFilas, maxColumnas);
+    colocarMinas(arrayTablero, contador, minas);
+    contarMinasAlrededor(arrayTablero);
+    pintarTableroEnPantalla(arrayTablero);
 }
 
-// Coloca de forma aleatoria el número de minas seleccionado
-while (contador < minas) {
-    posFila = parseInt(Math.random() * maxFilas);
-    posColumna = parseInt(Math.random() * maxColumnas);
-
-    if (arrayTablero[posFila][posColumna] != "X") {
-        arrayTablero[posFila][posColumna] = "X";
-        contador++;
-    }
-}
-
-// Cuenta las minas que hay alrededor de cada casilla
-let numMinasAlrededor;
-
-for (let fila = 0; fila < maxFilas; fila++) {
-    for (let columna = 0; columna < maxColumnas; columna++) {
-        numMinasAlrededor = 0;
-        if (arrayTablero[fila][columna] != 'X') {
-            for (let cFila = fila - 1; cFila <= fila + 1; cFila++) {
-                if (cFila >= 0 && cFila < maxFilas) {
-                    for (let cColumna = columna - 1; cColumna <= columna + 1; cColumna++) {
-                        if (cColumna >= 0 && cColumna < maxColumnas &&
-                            arrayTablero[cFila][cColumna] == 'X') {
-                            numMinasAlrededor++;
-                        }
-                    }
-                }
-                arrayTablero[fila][columna] = numMinasAlrededor;
-            }
-
+// Función para crear el tablero, crea un array y lo rellena con espacios en blanco, devuelve el tablero con las
+// casillas seleccionadas por el usuario
+function crearTablero(arrayTablero, maxFilas, maxColumnas) {
+    for (let fila = 0; fila < maxFilas; fila++) {
+        arrayTablero[fila] = [];
+        for (let columna = 0; columna < maxColumnas; columna++) {
+            arrayTablero[fila][columna] = "-";
         }
     }
+    return arrayTablero;
 }
 
-//console.log(arrayTablero);
+// Coloca de forma aleatoria el número de minas seleccionadas por el usuario, devuelve el tablero con las minas
+// en posición
+function colocarMinas(arrayTablero, contador, minas) {
+
+    arrayTablero = crearTablero(arrayTablero, maxFilas, maxColumnas);
+
+    while (contador < minas) {
+        posFila = parseInt(Math.random() * maxFilas);
+        posColumna = parseInt(Math.random() * maxColumnas);
+
+        if (arrayTablero[posFila][posColumna] != "X") {
+            arrayTablero[posFila][posColumna] = "X";
+            contador++;
+        }
+    }
+    return arrayTablero;
+}
+
+// // Cuenta las minas que hay alrededor de cada casilla
+function contarMinasAlrededor(arrayTablero) {
+
+    let numMinasAlrededor;
+    arrayTablero = colocarMinas(arrayTablero, contador, minas);
+
+    for (let fila = 0; fila < maxFilas; fila++) {
+        for (let columna = 0; columna < maxColumnas; columna++) {
+            numMinasAlrededor = 0;
+            if (arrayTablero[fila][columna] != 'X') {
+                for (let cFila = fila - 1; cFila <= fila + 1; cFila++) {
+                    if (cFila >= 0 && cFila < maxFilas) {
+                        for (let cColumna = columna - 1; cColumna <= columna + 1; cColumna++) {
+                            if (cColumna >= 0 && cColumna < maxColumnas &&
+                                arrayTablero[cFila][cColumna] == 'X') {
+                                numMinasAlrededor++;
+                            }
+                        }
+                    }
+                    arrayTablero[fila][columna] = numMinasAlrededor;
+                }
+
+            }
+        }
+    }
+    return arrayTablero;
+}
+
+// Pinta en pantalla el tablero al completo
+function pintarTableroEnPantalla(arrayTablero) {
+
+    document.write('<table>');
+
+    for (let i = 0; i < maxFilas; i++) {
+        document.write('<tr>');
+        for (let j = 0; j < maxColumnas; j++) {
+            document.write('<td>');
+            document.write(arrayTablero[i][j]);
+            document.write('</td>');
+        }
+        document.write('</tr>');
+    }
+    document.write('</table>');
+
+}
 
 /*********************************************** */
 
-document.write('<table>');
 
-for (let i = 0; i < maxFilas; i++) {
-    document.write('<tr>');
-    for (let j = 0; j < maxColumnas; j++) {
-        document.write('<td>');
-        document.write(arrayTablero[i][j]);
-        document.write('</td>');
-    }
-    document.write('</tr>');
-}
-document.write('</table>');
 
 
 /* *************************************************** */
