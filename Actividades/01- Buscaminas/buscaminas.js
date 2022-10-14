@@ -56,7 +56,7 @@ function colocarMinas(arrayTablero, contador, minas) {
     return arrayTablero;
 }
 
-// // Cuenta las minas que hay alrededor de cada casilla
+// Cuenta las minas que hay alrededor de cada casilla
 function contarMinasAlrededor(arrayTablero) {
 
     let numMinasAlrededor;
@@ -87,14 +87,21 @@ function contarMinasAlrededor(arrayTablero) {
 // Pinta en pantalla el tablero al completo
 function pintarTableroEnPantalla(arrayTablero) {
 
+    document.write('<h1 class="font-effect-fire">BUSCAMINAS</h1>');
     document.write('<table>');
 
     for (let i = 0; i < maxFilas; i++) {
         document.write('<tr>');
         for (let j = 0; j < maxColumnas; j++) {
-            document.write('<td>');
-            document.write(arrayTablero[i][j]);
-            document.write('</td>');
+            if (arrayTablero[i][j] == 'X') {
+                document.write('<td style="color: blue">' + arrayTablero[i][j] + '</td>');
+            } else if (arrayTablero[i][j] == '0') {
+                document.write('<td style="color: green"">' + arrayTablero[i][j] + '</td>');
+            } else if (arrayTablero[i][j] == '1') {
+                document.write('<td style="color: orange"">' + arrayTablero[i][j] + '</td>');
+            } else {
+                document.write('<td style="color: red"">' + arrayTablero[i][j] + '</td>');
+            }
         }
         document.write('</tr>');
     }
@@ -110,10 +117,8 @@ function pintarTableroEnPantalla(arrayTablero) {
 /* *************************************************** */
 
 /* Cuenta cuantas minas hay alrededor de una casilla seleccionada. VERSION EXTENDIDA
-
 filaSeleccionada = filaSeleccionada - 1;
 columnaSeleccionada = columnaSeleccionada - 1;
-
 // Condicional para primera fila y columna
 if (filaSeleccionada == 0 && columnaSeleccionada == 0) {
     if (arrayTablero[filaSeleccionada][columnaSeleccionada + 1] == 'mina') {
@@ -126,7 +131,6 @@ if (filaSeleccionada == 0 && columnaSeleccionada == 0) {
         contadorMinasAlrededor++; // Fila inferior-derecha
     }
 }
-
 // Condicional para primera fila y columna diferente a primera y última de la tabla
 if (filaSeleccionada == 0 && columnaSeleccionada != 0 && columnaSeleccionada != maxColumnas - 1) {
     if (arrayTablero[filaSeleccionada][columnaSeleccionada - 1] == 'mina') {
@@ -145,7 +149,6 @@ if (filaSeleccionada == 0 && columnaSeleccionada != 0 && columnaSeleccionada != 
         contadorMinasAlrededor++; // Fila inferior-derecha
     }
 }
-
 // Condicional para primera fila y última columna
 if (filaSeleccionada == 0 && columnaSeleccionada == maxFilas - 1) {
     if (arrayTablero[filaSeleccionada][columnaSeleccionada - 1] == 'mina') {
@@ -158,9 +161,7 @@ if (filaSeleccionada == 0 && columnaSeleccionada == maxFilas - 1) {
         contadorMinasAlrededor++; // Fila inferior-izquierda
     }
 }
-
 // Condicional para primera columna y fila diferente a primera y última de la tabla
-
 if (filaSeleccionada != 0 && filaSeleccionada != maxFilas - 1 && columnaSeleccionada == 0) {
     if (arrayTablero[filaSeleccionada - 1][columnaSeleccionada] == 'mina') {
         contadorMinasAlrededor++; // Fila superior
@@ -178,9 +179,7 @@ if (filaSeleccionada != 0 && filaSeleccionada != maxFilas - 1 && columnaSeleccio
         contadorMinasAlrededor++; // Fila inferior-derecha
     }
 }
-
 // Condicional para fila y columna diferente a primera y última de la tabla
-
 if (filaSeleccionada != 0 && filaSeleccionada != maxFilas - 1 && columnaSeleccionada != 0 && columnaSeleccionada != maxColumnas - 1) {
     if (arrayTablero[filaSeleccionada - 1][columnaSeleccionada] == 'mina') {
         contadorMinasAlrededor++; // Fila superior
@@ -207,9 +206,7 @@ if (filaSeleccionada != 0 && filaSeleccionada != maxFilas - 1 && columnaSeleccio
         contadorMinasAlrededor++; // Fila inferior-derecha
     }
 }
-
 // Condicional para última columna y fila diferente a primera y última de la tabla
-
 if (filaSeleccionada != 0 && filaSeleccionada != maxFilas - 1 && columnaSeleccionada == maxColumnas - 1) {
     if (arrayTablero[filaSeleccionada - 1][columnaSeleccionada] == 'mina') {
         contadorMinasAlrededor++; // Fila superior
@@ -227,7 +224,6 @@ if (filaSeleccionada != 0 && filaSeleccionada != maxFilas - 1 && columnaSeleccio
         contadorMinasAlrededor++; // Fila inferior-izquierda
     }
 }
-
 // Condicional para última fila y primera columna
 if (filaSeleccionada == maxFilas - 1 && columnaSeleccionada == 0) {
     if (arrayTablero[filaSeleccionada - 1][columnaSeleccionada] == 'mina') {
@@ -240,7 +236,6 @@ if (filaSeleccionada == maxFilas - 1 && columnaSeleccionada == 0) {
         contadorMinasAlrededor++; // Fila superior-derecha
     }
 }
-
 // Condicional para última fila y columna diferente a primera y última de la tabla
 if (filaSeleccionada == maxFilas - 1 && columnaSeleccionada != 0 && columnaSeleccionada != maxColumnas - 1) {
     if (arrayTablero[filaSeleccionada][columnaSeleccionada - 1] == 'mina') {
@@ -256,7 +251,6 @@ if (filaSeleccionada == maxFilas - 1 && columnaSeleccionada != 0 && columnaSelec
         contadorMinasAlrededor++; // Fila superior-derecha
     }
 }
-
 // Condicional para última fila y columna
 if (filaSeleccionada == maxFilas - 1 && columnaSeleccionada == maxFilas - 1) {
     if (arrayTablero[filaSeleccionada - 1][columnaSeleccionada] == 'mina') {
