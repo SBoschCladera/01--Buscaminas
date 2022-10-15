@@ -8,7 +8,7 @@ h1 {
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    border: 2px solid black;
+    border: 3px solid lightslategray;
     margin: auto;
     margin-top: 5%;
     background-color: gainsboro;

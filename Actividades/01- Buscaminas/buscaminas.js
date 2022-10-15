@@ -3,22 +3,30 @@ var maxFilas, maxColumnas, minas;
 let arrayTablero = [];
 let contador = 0;
 
-//Solicita al usuario los datos necesarios para crear el tablero con el número de minas.
-
-maxFilas = prompt('Número de filas: ');
-maxColumnas = prompt('Número de columnas: ');
-minas = prompt('Número de minas a colocar: ');;
 
 iniciarApp();
 
-/*
-maxFilas = 5;
-maxColumnas = 5;
-minas = 10;
-*/
 
 // Inicia la aplicación
 function iniciarApp() {
+
+    //Solicita al usuario los datos necesarios para crear el tablero con el número de minas.
+    maxFilas = prompt('Número de filas: ');
+    while (!Number(maxFilas) || maxFilas < 1) {
+        alert("El valor introducido debe ser un número mayor que cero.")
+        maxFilas = prompt('Número de filas: ');
+    }
+    maxColumnas = prompt('Número de columnas: ');
+    while (!Number(maxColumnas) || maxColumnas < 1) {
+        alert("El valor introducido debe ser un número mayor que cero.")
+        maxColumnas = prompt('Número de columnas: ');
+    }
+    minas = prompt('Número de minas: ');
+    while (!Number(minas) || minas < 1) {
+        alert("El valor introducido debe ser un número mayor que cero.")
+        minas = prompt('Número de minas: ');
+    }
+
 
     crearTablero(arrayTablero, maxFilas, maxColumnas);
     colocarMinas(arrayTablero, contador, minas);
