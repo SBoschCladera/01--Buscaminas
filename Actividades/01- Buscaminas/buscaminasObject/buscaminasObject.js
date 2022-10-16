@@ -6,17 +6,17 @@ let contador = 0;
 //Solicita al usuario los datos necesarios para crear el tablero con el número de minas.
 maxFilas = prompt('Número de filas: ');
 while (!Number(maxFilas) || maxFilas < 1) {
-    alert("El valor introducido debe ser un número mayor que cero.")
+    alert("El valor introducido debe ser un número mayor que 0.")
     maxFilas = prompt('Número de filas: ');
 }
 maxColumnas = prompt('Número de columnas: ');
 while (!Number(maxColumnas) || maxColumnas < 1) {
-    alert("El valor introducido debe ser un número mayor que cero.")
+    alert("El valor introducido debe ser un número mayor que 0.")
     maxColumnas = prompt('Número de columnas: ');
 }
 minas = prompt('Número de minas: ');
-while (!Number(minas) || minas < 1) {
-    alert("El valor introducido debe ser un número mayor que cero.")
+while (!Number(minas) || minas < 1 || minas >= (maxFilas * maxColumnas)) {
+    alert("El valor introducido debe ser un número mayor que 0 y menor que " + (maxFilas * maxColumnas) + " .")
     minas = prompt('Número de minas: ');
 }
 
