@@ -21,5 +21,49 @@ class Tablero {
     }
 }
 
-const tablero1 = new Tablero(6, 6)
-console.log(tablero1.crearTablero());
+// Clase Memory hereda de la clase Tablero
+class Memory extends Tablero {
+    constructor(filas, columnas, tematicaPareja) {
+        super(filas, columnas);
+        this.tematicaPareja = tematicaPareja;
+
+        this.arrayDeParejas();
+    }
+
+    // Rellena un array con las imágenes por duplicado (par crear parejas) contenidas en el directorio imagen, éstas pueden provenir de 
+    // dos directorios diferentes de forma aleatoria para dos temáticas diferentes. Devuelve un array con el número de parejas solicitadas 
+    // por el usuario colocadas en posiciones aleatorias.
+    arrayDeParejas() {
+
+        let numParejas = (this.filas * this.columnas) / 2;
+        this.arrayParejas = [];
+
+        for (let i = 0; i < numParejas; i++) {
+
+            if (this.tematicaPareja == 0) {
+                this.tematicaPareja = "animales";
+            }
+            if (this.tematicaPareja == 1) {
+                this.tematicaPareja = "halloween";
+            }
+
+            // Cuando el número de parejas es mayor de 10, rellena con valores aleatorios hasta llegar al número de parejas necesarias.
+            if (i > 10) {
+                let parejaAleatoria = parseInt(Math.random() * 10);
+                this.arrayParejas.push('<img src="imagenes/' + this.tematicaPareja + '/' + parejaAleatoria + '.png" alt="imagen' + i + '"></img>');
+                this.arrayParejas.push('<img src="imagenes/' + this.tematicaPareja + '/' + parejaAleatoria + '.png" alt="imagen' + i + '"></img>');
+            } else {
+                this.arrayParejas.push('<img src="imagenes/' + this.tematicaPareja + '/' + i + '.png" alt="imagen' + i + '"></img>');
+                this.arrayParejas.push('<img src="imagenes/' + this.tematicaPareja + '/' + i + '.png" alt="imagen' + i + '"></img>');
+            }
+        }
+        return this.arrayParejas;
+    }
+}
+
+
+const tablero1 = new Memory(6, 6, 0)
+console.log(tablero1.arrayDeParejas());
+
+const tablero2 = new Memory(4, 4, 1)
+console.log(tablero2.arrayDeParejas());
