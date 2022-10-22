@@ -1,3 +1,8 @@
+// Declaración de variables
+let maxfilas = 6;
+let maxColumnas = 12;
+
+
 // Crea la clase Tablero
 class Tablero {
     constructor(filas, columnas) {
@@ -27,9 +32,68 @@ class Memory extends Tablero {
         super(filas, columnas);
         this.tematicaPareja = tematicaPareja;
 
+        this.pedirDatosUsuario();
+        this.pedirTematicaParejas();
         this.arrayDeParejas();
-        this.desordenarParejas();
+        this.desordenarArray();
         this.colocarParejas();
+        this.pintarTableroEnPantalla();
+    }
+
+    // Solicita al usuario el número de filas y columnas para el tablero, cumpliendo unas ciertas condiciones
+    pedirDatosUsuario() {
+
+        // Variables
+        let mensajeFila = 'Número de filas: ';
+        let mensajeColumna = 'Número de columnas: ';
+        let mensajeAlert1 = 'Debes introducir un valor númerico positivo.'
+        let mensajeAlert2 = 'El número máximo de filas es ' + maxfilas + '.'
+        let mensajeAlert3 = 'El número máximo de columnas es ' + maxColumnas + '.'
+
+        this.filas = prompt(mensajeFila);
+
+        // Personaliza el mensaje de salida para las filas según el error detectado.
+        while (!Number(this.filas) || this.filas < 1 || this.filas > maxfilas) {
+
+            if (this.filas < 1 || !Number(this.filas)) {
+                alert(mensajeAlert1);
+            } else
+            if (this.filas > maxfilas) {
+                alert(mensajeAlert2);
+            }
+            this.filas = prompt(mensajeFila);
+        }
+
+        this.columnas = prompt(mensajeColumna);
+
+        // ... y para las columnas.
+        while (!Number(this.columnas) || this.columnas < 1 || this.columnas > maxColumnas) {
+
+            if (this.columnas < 1 || !Number(this.columnas)) {
+                alert(mensajeAlert1);
+            } else
+            if (this.columnas > maxColumnas) {
+                alert(mensajeAlert3);
+            }
+            this.columnas = prompt(mensajeColumna);
+        }
+    }
+
+    // Solicita al usuario la temática que desea entre las dos opciones disponibles
+    pedirTematicaParejas() {
+
+        let mensaje = 'Elige una temática para el juego: \n1) Animales \n2) Halloween'
+        let mensajeAlert = 'Valor incorrecto, prueba otra vez.'
+        let expresionRegular1 = /animales/i;
+        let expresionRegular2 = /halloween/i;
+        let expresionRegular3 = /[1-2]/;
+
+        this.tematicaPareja = prompt(mensaje);
+
+        while (!(expresionRegular1.test(this.tematicaPareja) || expresionRegular2.test(this.tematicaPareja) || expresionRegular3.test(this.tematicaPareja))) {
+            alert(mensajeAlert)
+            this.tematicaPareja = prompt(mensaje);
+        }
     }
 
     // Rellena un array con las imágenes por duplicado (par crear parejas) contenidas en el directorio imagen, éstas pueden provenir de 
@@ -42,10 +106,10 @@ class Memory extends Tablero {
 
         for (let i = 0; i < numParejas; i++) {
 
-            if (this.tematicaPareja == 0) {
+            if (this.tematicaPareja == 1) {
                 this.tematicaPareja = "animales";
             }
-            if (this.tematicaPareja == 1) {
+            if (this.tematicaPareja == 2) {
                 this.tematicaPareja = "halloween";
             }
 
@@ -63,7 +127,7 @@ class Memory extends Tablero {
     }
 
     // Devuelve un array ("tablero") desordenado aleatoriamente (fuente W3Schools.com).
-    desordenarParejas() {
+    desordenarArray() {
         return this.arrayDeParejas().sort(function () {
             return 0.5 - Math.random()
         });
@@ -82,11 +146,23 @@ class Memory extends Tablero {
         return this.tablero;
     }
 
+    // Pinta el tablero definitivo en pantalla
+    pintarTableroEnPantalla() {
+
+        document.write('<h1>MEMORY</h1>');
+        document.write('<table>');
+
+        for (let i = 0; i < this.filas; i++) {
+            document.write('<tr>');
+            for (let j = 0; j < this.columnas; j++) {
+                document.write('<td>' + this.colocarParejas()[i][j] + '</td>');
+            }
+            document.write('</tr>');
+        }
+        document.write('</table>');
+    }
+
+
 }
 
-
-const tablero1 = new Memory(6, 6, 0)
-console.log(tablero1.colocarParejas());
-
-const tablero2 = new Memory(4, 5, 1)
-console.log(tablero2.colocarParejas());
+const tablero1 = new Memory(maxfilas, maxColumnas, 1)
