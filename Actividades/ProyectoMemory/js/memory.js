@@ -28,6 +28,8 @@ class Memory extends Tablero {
         this.tematicaPareja = tematicaPareja;
 
         this.arrayDeParejas();
+        this.desordenarParejas();
+        this.colocarParejas();
     }
 
     // Rellena un array con las imágenes por duplicado (par crear parejas) contenidas en el directorio imagen, éstas pueden provenir de 
@@ -59,11 +61,32 @@ class Memory extends Tablero {
         }
         return this.arrayParejas;
     }
+
+    // Devuelve un array ("tablero") desordenado aleatoriamente (fuente W3Schools.com).
+    desordenarParejas() {
+        return this.arrayDeParejas().sort(function () {
+            return 0.5 - Math.random()
+        });
+    }
+
+    // Introduce el valor de cada posición del array con las url de las imágenes en el tablero.
+    colocarParejas() {
+        let contador = 0;
+
+        for (let i = 0; i < this.filas; i++) {
+            for (let j = 0; j < this.columnas; j++) {
+                this.tablero[i][j] = this.arrayParejas[contador];
+                contador++
+            }
+        }
+        return this.tablero;
+    }
+
 }
 
 
 const tablero1 = new Memory(6, 6, 0)
-console.log(tablero1.arrayDeParejas());
+console.log(tablero1.colocarParejas());
 
-const tablero2 = new Memory(4, 4, 1)
-console.log(tablero2.arrayDeParejas());
+const tablero2 = new Memory(4, 5, 1)
+console.log(tablero2.colocarParejas());
