@@ -32,13 +32,32 @@ class Memory extends Tablero {
         super(filas, columnas);
         this.tematicaPareja = tematicaPareja;
 
-        this.pedirDatosUsuario();
-        this.pedirTematicaParejas();
-        this.arrayDeParejas();
+        this.iniciarApp();
+        // this.arrayDeParejas();
         this.desordenarArray();
-        this.colocarParejas();
+       // this.colocarParejas();
         this.pintarTableroEnPantalla();
     }
+
+    // Inicia la aplicación solicitando el número de filas y columnas al usuario, realiza comprobaciones para saber si el número de casillas del tablero es correcto (debe ser un número par),
+    // debe contener un mínimo de 2 parejas y finalmente pinta el tablero en pantalla.
+    iniciarApp() {
+        this.pedirDatosUsuario();
+        let numParejas = parseInt((this.filas * this.columnas) / 2);
+
+        while ((this.filas * this.columnas) % 2 != 0 || numParejas < 2) {
+
+            if ((this.filas * this.columnas) % 2 != 0) {
+                alert('El número de parejas debe ser PAR, introduce los datos de nuevo.')
+            } else if (numParejas < 2) {
+                alert('El número mínimo de parejas debe ser 2.')
+            }
+            this.pedirDatosUsuario();
+            numParejas = parseInt((this.filas * this.columnas) / 2);
+        }
+        this.pedirTematicaParejas();
+    }
+
 
     // Solicita al usuario el número de filas y columnas para el tablero, cumpliendo unas ciertas condiciones
     pedirDatosUsuario() {
@@ -94,6 +113,7 @@ class Memory extends Tablero {
             alert(mensajeAlert)
             this.tematicaPareja = prompt(mensaje);
         }
+        this.arrayDeParejas();
     }
 
     // Rellena un array con las imágenes por duplicado (par crear parejas) contenidas en el directorio imagen, éstas pueden provenir de 
@@ -135,6 +155,7 @@ class Memory extends Tablero {
 
     // Introduce el valor de cada posición del array con las url de las imágenes en el tablero.
     colocarParejas() {
+
         let contador = 0;
 
         for (let i = 0; i < this.filas; i++) {
@@ -146,8 +167,10 @@ class Memory extends Tablero {
         return this.tablero;
     }
 
-    // Pinta el tablero definitivo en pantalla
+    // Pinta el tablero definitivo en pantalla.
     pintarTableroEnPantalla() {
+
+        this.colocarParejas();
 
         document.write('<h1>MEMORY</h1>');
         document.write('<table>');
@@ -155,14 +178,12 @@ class Memory extends Tablero {
         for (let i = 0; i < this.filas; i++) {
             document.write('<tr>');
             for (let j = 0; j < this.columnas; j++) {
-                document.write('<td>' + this.colocarParejas()[i][j] + '</td>');
+                document.write('<td><div class="fichas">' + this.colocarParejas()[i][j] + '</div></td>');
             }
             document.write('</tr>');
         }
         document.write('</table>');
     }
-
-
 }
 
 const tablero1 = new Memory(maxfilas, maxColumnas, 1)
