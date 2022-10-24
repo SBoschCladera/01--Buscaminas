@@ -1,52 +1,104 @@
+@font-face {
+    font-family: 'Monoton';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Monoton'), local('Monoton-Regular'), url(http://themes.googleusercontent.com/static/fonts/monoton/v4/AKI-lyzyNHXByGHeOcds_w.woff) format('woff');
+}
+
+body {
+    background-color: rgb(34, 34, 34);
+}
+
 h1 {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 60px;
     font-weight: bolder;
     text-align: center;
+    font-family: monoton;
+    color: rgb(255, 17, 119);
+    text-decoration: none;
+    transition: all 0.5s;
+    animation: neon 1.5s ease-in-out infinite alternate;
 }
 
+/*
+h1:hover{
+    animation: neon 1.5s ease-in-out infinite alternate;
+}*/
+
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    border: 1px solid transparent;
     margin: auto;
-    margin-top: 2%;
-    /*background-color: gainsboro;*/
+    margin-top: -25px;
+    padding: 10px 20px;
+    border-spacing: 0px;
+    border: 3px solid rgb(204, 204, 204);
+    border-radius: 30px;
 }
 
 tr,
 td {
-    /*width: 40px;
-    height: 40px;
-    line-height: 40px;
-    font-size: 25px;*/
     border: 1px solid transparent;
     text-align: center;
     padding: 15px;
-
-}
-
-p {
-    font-size: large;
-    font-weight: bolder;
 }
 
 img {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
 }
 
 .fichas {
     box-sizing: border-box;
-    width: 95px;
-    height: 95px;
-    line-height: 95px;
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
     border-radius: 50%;
     padding: 15px;
-    background-color: rgb(219, 82, 105);
-    border: 5px solid rgb(233, 104, 126);
-    box-shadow: 0px 12px 8px rgb(148, 144, 144),
-        -2px 8px 7px rgb(236, 164, 176) inset,
-        -5px -20px 5px rgb(209, 52, 99) inset,
-        -5px -23px 5px rgb(228, 155, 167) inset;
+    background-color: rgba(150, 236, 201, 0.986);
+    border: 3px solid rgb(9, 236, 161)
+        /*rgb(27, 146, 110)*/
+    ;
+    box-shadow: 0px 9px 12px rgb(148, 144, 144),
+        -2px 8px 7px rgb(150, 236, 201) inset,
+        -5px -20px 5px rgb(69, 189, 141) inset,
+        -5px -23px 5px rgb(144, 216, 187) inset;
 }
+
+/* Efecto apara el neón */
+@keyframes neon {
+    from {
+        text-shadow: 0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 30px #fff,
+            0 0 40px #FF1177,
+            0 0 70px #FF1177,
+            0 0 80px #FF1177,
+            0 0 100px #FF1177,
+            0 0 150px #FF1177;
+    }
+
+    to {
+        text-shadow: 0 0 5px #fff,
+            0 0 10px #fff,
+            0 0 15px #fff,
+            0 0 20px #FF1177,
+            0 0 35px #FF1177,
+            0 0 40px #FF1177,
+            0 0 50px #FF1177,
+            0 0 75px #FF1177;
+    }
+}
+
+/*.milky {
+  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;;
+  text-transform: uppercase; 
+  font-size: 60px;
+  color: #f1ebe5;
+  text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
+  font-weight: bold;
+  letter-spacing: -4px;
+  text-align: center;
+  background: linear-gradient(to bottom, #ece4d9 0%,#e9dfd1 100%);
+  transform: translate(-50%,-50%);
+  border-radius: 20px;
+}
+*/
