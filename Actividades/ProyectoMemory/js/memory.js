@@ -35,7 +35,7 @@ class Memory extends Tablero {
         this.iniciarApp();
         // this.arrayDeParejas();
         this.desordenarArray();
-       // this.colocarParejas();
+        // this.colocarParejas();
         this.pintarTableroEnPantalla();
     }
 
@@ -77,9 +77,9 @@ class Memory extends Tablero {
             if (this.filas < 1 || !Number(this.filas)) {
                 alert(mensajeAlert1);
             } else
-            if (this.filas > maxfilas) {
-                alert(mensajeAlert2);
-            }
+                if (this.filas > maxfilas) {
+                    alert(mensajeAlert2);
+                }
             this.filas = prompt(mensajeFila);
         }
 
@@ -91,9 +91,9 @@ class Memory extends Tablero {
             if (this.columnas < 1 || !Number(this.columnas)) {
                 alert(mensajeAlert1);
             } else
-            if (this.columnas > maxColumnas) {
-                alert(mensajeAlert3);
-            }
+                if (this.columnas > maxColumnas) {
+                    alert(mensajeAlert3);
+                }
             this.columnas = prompt(mensajeColumna);
         }
     }
@@ -105,7 +105,7 @@ class Memory extends Tablero {
         let mensajeAlert = 'Valor incorrecto, prueba otra vez.'
         let expresionRegular1 = /animales/i;
         let expresionRegular2 = /halloween/i;
-        let expresionRegular3 = /[1-2]/;
+        let expresionRegular3 =  /^[1-2]$/;
 
         this.tematicaPareja = prompt(mensaje);
 
@@ -173,7 +173,7 @@ class Memory extends Tablero {
         this.colocarParejas();
 
         document.write('<h1>MEMORY</h1>');
-        document.write('<table>');
+        document.write('<table class="tabla">');
 
         for (let i = 0; i < this.filas; i++) {
             document.write('<tr>');
@@ -186,4 +186,11 @@ class Memory extends Tablero {
     }
 }
 
-const tablero1 = new Memory(maxfilas, maxColumnas, 1)
+// Crea el efecto de entrada para la entrada
+function entradaTabla() {
+    const selector = document.querySelector('.tabla')
+    selector.classList.add('magictime', 'vanishIn')
+}
+setInterval(entradaTabla, 4000);
+
+const tablero1 = new Memory(maxfilas, maxColumnas, this.tematicaPareja)
