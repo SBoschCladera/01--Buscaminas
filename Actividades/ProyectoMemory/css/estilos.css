@@ -33,24 +33,23 @@ tr,
 td {
     border: 1px solid transparent;
     text-align: center;
-    padding: 15px;
+    padding: 7px 14px;
 }
 
 img {
-    width: 55px;
-    height: 55px;
+    width: 42px;
+    height: 42px;
 }
 
 .fichas {
     box-sizing: border-box;
-    width: 90px;
-    height: 90px;
-    line-height: 90px;
+    width: 75px;
+    height: 75px;
+    line-height: 75px;
     border-radius: 50%;
     padding: 15px;
     background-color: rgba(150, 236, 201, 0.986);
     border: 3px solid rgb(9, 236, 161);
-    /*rgb(27, 146, 110)*/
 
     box-shadow: 0px 9px 12px rgb(148, 144, 144),
         -2px 8px 7px rgb(150, 236, 201) inset,
@@ -58,42 +57,21 @@ img {
         -5px -23px 5px rgb(144, 216, 187) inset;
 }
 
-/* Efecto apara el neón */
-/*@keyframes neon {
-    from {
-        text-shadow: 0 0 10px #fff,
-            0 0 20px #fff,
-            0 0 30px #fff,
-            0 0 40px #FF1177,
-            0 0 70px #FF1177,
-            0 0 80px #FF1177,
-            0 0 100px #FF1177,
-            0 0 150px #FF1177;
+@media (min-width: 1600px) {
+
+    tr,
+    td {
+        padding: 15px;
     }
 
-    to {
-        text-shadow: 0 0 5px #fff,
-            0 0 10px #fff,
-            0 0 15px #fff,
-            0 0 20px #FF1177,
-            0 0 35px #FF1177,
-            0 0 40px #FF1177,
-            0 0 50px #FF1177,
-            0 0 75px #FF1177;
+    img {
+        width: 55px;
+        height: 55px;
+    }
+
+    .fichas {
+        width: 90px;
+        height: 90px;
+        line-height: 90px;
     }
 }
-*/
-/*.milky {
-  font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;;
-  text-transform: uppercase; 
-  font-size: 60px;
-  color: #f1ebe5;
-  text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
-  font-weight: bold;
-  letter-spacing: -4px;
-  text-align: center;
-  background: linear-gradient(to bottom, #ece4d9 0%,#e9dfd1 100%);
-  transform: translate(-50%,-50%);
-  border-radius: 20px;
-}
-*/
