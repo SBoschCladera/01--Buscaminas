@@ -95,8 +95,8 @@ class Juego {
 
         let mensaje = 'Elige una temática para el juego: \n1) Animales \n2) Halloween'
         let mensajeAlert = 'Valor incorrecto, prueba otra vez.'
-        let expresionRegular1 = /animales/i;
-        let expresionRegular2 = /halloween/i;
+        let expresionRegular1 = /^animales$/i;
+        let expresionRegular2 = /^halloween$/i;
         let expresionRegular3 = /^[1-2]$/;
 
         this.tematicaPareja = prompt(mensaje);
@@ -108,12 +108,10 @@ class Juego {
         }
     }
 
-
     iniciarMemory() {
         const memory = new Memory(this.filas, this.columnas, this.tematicaPareja);
     }
 }
-
 
 // Clase Memory hereda de la clase Tablero
 class Memory extends Tablero {
@@ -200,7 +198,6 @@ class Memory extends Tablero {
         }
         document.write('</table>');
     }
-}
-
+} 
 
 const juego = new Juego();
