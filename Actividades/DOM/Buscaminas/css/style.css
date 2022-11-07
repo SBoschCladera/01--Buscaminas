@@ -33,3 +33,9 @@ td {
     border-right: 4px solid #A9A9A9;
     border-bottom: 4px solid #A9A9A9;
 }
+
+img {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+}
