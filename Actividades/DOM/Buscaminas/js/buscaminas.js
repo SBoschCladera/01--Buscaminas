@@ -22,6 +22,8 @@ class Tablero {
     dibujarTablero() {
         // Creamos el tablero en html
 
+        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
+
         let titulo = document.createElement('h1');
         let textoTitulo = document.createTextNode('BUSCAMINAS');
         titulo.appendChild(textoTitulo);
@@ -42,11 +44,13 @@ class Tablero {
                 td.appendChild(contenidoTd); // Añade el texto a la celda.
 
                 if (`${this.arrayTablero[i][j]}` == 'X') {
-                    td.style.color = "blue"; // Cambiamos el estilo según necesitemos.
+                    let img = document.createElement('img'); // Coloca una imagen sustituyendo 'X'.
+                    img.setAttribute('src', url);
+                    td.innerHTML = "";
+                    td.appendChild(img);
+
                 } else if (`${this.arrayTablero[i][j]}` == '0') {
                     td.style.color = "green";  // Cambiamos el estilo según necesitemos.
-                } else if (`${this.arrayTablero[i][j]}` == '1') {
-                    td.style.color = "orange"; // Cambiamos el estilo según necesitemos.
                 } else {
                     td.style.color = "red"; // Cambiamos el estilo según necesitemos.
                 }
@@ -87,8 +91,7 @@ class Buscaminas extends Tablero {
 
     colocarMinas() {
         let contadorMinas = 0;
-        let posFila;
-        let posColumna;
+        let posFila, posColumna;
 
         while (contadorMinas < this.numMinas) {
             posFila = Math.floor(Math.random() * this.filas);
