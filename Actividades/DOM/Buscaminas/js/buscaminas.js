@@ -1,3 +1,6 @@
+//document.addEventListener("DOMContentLoaded", function (event) {
+//  window.addEventListener("load", verContenido);
+
 class Tablero {
     constructor(filas, columnas) {
         this.filas = filas;
@@ -20,9 +23,7 @@ class Tablero {
     }
 
     dibujarTablero() {
-        // Creamos el tablero en html
-
-        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
+        // Pinta el tablero en pantalla.
 
         let titulo = document.createElement('h1');
         let textoTitulo = document.createTextNode('BUSCAMINAS');
@@ -30,26 +31,44 @@ class Tablero {
         titulo.setAttribute('class', 'font-effect-fire')
         document.body.appendChild(titulo);
 
+        this.crearTabla();
+    }
+
+
+    crearTabla() {
+        // Crea una tabla
+        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
+
         let tabla = document.createElement('table'); // Crea una tabla
         let cuerpoTabla = document.createElement('tbody'); // Crea el tbody
 
         for (let i = 0; i < this.filas; i++) {
 
-            let tr = document.createElement('tr');   // Crea una fila.
+            let tr = document.createElement('tr');   // Crea una fila.                                    
 
             for (let j = 0; j < this.columnas; j++) {
 
+                let valorCelda = this.arrayTablero[i][j];  // Valor de la celda del tablero. Parámetro para el evento de click.
+
                 let td = document.createElement('td'); // Crea una celda
-                let contenidoTd = document.createTextNode(`${this.arrayTablero[i][j]}`); // Añade el texto deseado a la celda
+                let contenidoTd = document.createTextNode(""); // Añade el texto deseado a la celda
                 td.appendChild(contenidoTd); // Añade el texto a la celda.
 
-                if (`${this.arrayTablero[i][j]}` == 'X') {
-                    let img = document.createElement('img'); // Coloca una imagen sustituyendo 'X'.
-                    img.setAttribute('src', url);
-                    td.innerHTML = "";
-                    td.appendChild(img);
+                // Evento de click para mostrar el valor de una celda.
+                td.onclick = function () {
+                    contenidoTd = document.createTextNode(valorCelda);
+                    td.innerHTML = contenidoTd.nodeValue;
 
-                } else if (`${this.arrayTablero[i][j]}` == '0') {
+                    if (valorCelda == 'X') {
+                        let img = document.createElement('img'); // Coloca una imagen sustituyendo 'X'.
+                        img.setAttribute('src', url);
+                        td.innerHTML = "";
+                        td.appendChild(img);
+                        //alert('Has murido!!!!');  
+                    }
+                };
+
+                if (this.arrayTablero[i][j] == '0') {
                     td.style.color = "green";  // Cambiamos el estilo según necesitemos.
                 } else {
                     td.style.color = "red"; // Cambiamos el estilo según necesitemos.
@@ -128,6 +147,11 @@ class Buscaminas extends Tablero {
     }
 }
 
-let buscaminas1 = new Buscaminas(5, 5, 5);
-console.log(buscaminas1.arrayTablero);
-buscaminas1.dibujarTablero();
+window.onload = function () {
+    let buscaminas1 = new Buscaminas(5, 5, 5);
+    //console.log(buscaminas1.arrayTablero);
+    buscaminas1.dibujarTablero();
+}
+//});
+
+
