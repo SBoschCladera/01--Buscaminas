@@ -65,14 +65,15 @@ class Tablero {
                         td.innerHTML = "";
                         td.appendChild(img);
                         //alert('Has murido!!!!');  
+                    } else if (valorCelda == '0') {
+                        td.style.color = "green";   // Cambiamos el estilo según necesitemos.
+                       
+                        console.log('i= ' + i + ' : ' + 'j= ' + j)
+
+                    } else {
+                        td.style.color = "red";   // Cambiamos el estilo según necesitemos.
                     }
                 };
-
-                if (this.arrayTablero[i][j] == '0') {
-                    td.style.color = "green";  // Cambiamos el estilo según necesitemos.
-                } else {
-                    td.style.color = "red"; // Cambiamos el estilo según necesitemos.
-                }
 
                 tr.appendChild(td); // Añade la celda a la fila.
             }
@@ -83,7 +84,31 @@ class Tablero {
 
         document.body.appendChild(tabla); // Añade la tabla al cuerpo del documento.
     }
-
+    /*
+        comprobarCeldasVacias() {
+    
+            let valorCelda = this.arrayTablero[i][j];  // Valor de la celda del tablero. Parámetro para el evento de click.
+    
+            for (let i = 0; i < this.filas; i++) {
+                for (let j = 0; j < this.columnas; j++) {
+                    if (valorCelda == '0') {
+                        for (let cFila = i - 1; cFila <= i + 1; cFila++) {
+                            if (cFila >= 0 && cFila < this.filas) {
+                                for (let cColumna = j - 1; cColumna <= j + 1; cColumna++) {
+                                    if (cColumna >= 0 && cColumna < this.columnas &&
+                                        valorCelda[cFila][cColumna] == '0') {
+                                        document.body.innerHTML += 'hola'
+                                    }
+                                }
+                            }
+                            this.arrayTablero[i][j] = numMinasAlrededor;
+                        }
+                    }
+                }
+            }
+    
+        }
+    */
     modificarFilas(nuevasFilas) {
         // Modificar el número de filas y volver a crear el tablero con las filas nuevas
         this.filas = nuevasFilas;
