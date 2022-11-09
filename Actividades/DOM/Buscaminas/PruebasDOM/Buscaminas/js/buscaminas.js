@@ -37,8 +37,6 @@ class Tablero {
 
     crearTabla() {
         // Crea una tabla
-        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
-
         let tabla = document.createElement('table'); // Crea una tabla
         let cuerpoTabla = document.createElement('tbody'); // Crea el tbody
 
@@ -48,35 +46,20 @@ class Tablero {
 
             for (let j = 0; j < this.columnas; j++) {
 
-                let valorCelda = this.arrayTablero[i][j];  // Valor de la celda del tablero. Parámetro para el evento de click.
-
                 let td = document.createElement('td'); // Crea una celda
                 let contenidoTd = document.createTextNode(""); // Añade el texto deseado a la celda
                 td.appendChild(contenidoTd); // Añade el texto a la celda.
 
-                // Evento de click para mostrar el valor de una celda.
-                td.onclick = function () {
-                    contenidoTd = document.createTextNode(valorCelda);
-                    td.innerHTML = contenidoTd.nodeValue;
-
-                    if (valorCelda == 'X') {
-                        let img = document.createElement('img'); // Coloca una imagen sustituyendo 'X'.
-                        img.setAttribute('src', url);
-                        td.innerHTML = "";
-                        td.appendChild(img);
-                        //alert('Has murido!!!!');  
-                    }
-                };
-
-                if (this.arrayTablero[i][j] == '0') {
-                    td.style.color = "green";  // Cambiamos el estilo según necesitemos.
-                } else {
-                    td.style.color = "red"; // Cambiamos el estilo según necesitemos.
-                }
-
+                // Evento para mostrar el valor de una celda.
+                // "e" es el objeto que representa el evento, y uno de sus atributos es el target, que viene a ser el elemento que recibió el evento.
+                td.addEventListener('click', (e) => {
+                    e.target.innerHTML = this.arrayTablero[i][j];
+                    this.cambioColores(td, i, j);
+                    //console.log('i= ' + i + ' : ' + 'j= ' + j)
+                    this.comprobarCeldasVacias(td, i, j)
+                });
                 tr.appendChild(td); // Añade la celda a la fila.
             }
-
             cuerpoTabla.appendChild(tr); // Añade la fila al tbody.
         }
         tabla.appendChild(cuerpoTabla); // Añade el tbody a la tabla.
@@ -84,20 +67,70 @@ class Tablero {
         document.body.appendChild(tabla); // Añade la tabla al cuerpo del documento.
     }
 
-    modificarFilas(nuevasFilas) {
-        // Modificar el número de filas y volver a crear el tablero con las filas nuevas
-        this.filas = nuevasFilas;
 
-        this.crearTablero();
+    // Cambio en el CSS
+    cambioColores(td, fila, columna) {
+        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
+
+        if (this.arrayTablero[fila][columna] == 'X') {
+            let img = document.createElement('img'); // Coloca una imagen sustituyendo 'X'.
+            img.setAttribute('src', url);
+            td.innerHTML = "";
+            td.appendChild(img);
+            //alert('Has murido!!!!');  
+        } else if (this.arrayTablero[fila][columna] == '0') {
+            td.style.color = "green";   // Cambiamos el estilo según necesitemos.
+        } else {
+            td.style.color = "red";   // Cambiamos el estilo según necesitemos.
+        }
     }
 
-    modificarColumnas(nuevasColumnas) {
-        // Modificar el número de columnas y volver a crear el tablero con las columnas nuevas
-        this.columnas = nuevasColumnas;
 
-        this.crearTablero();
+    comprobarCeldasVacias(td, fila, columna) {
+
+        if (this.arrayTablero[fila][columna] == '0') {
+            /*  for (let cFila = fila - 1; cFila <= fila + 1; cFila++) {
+                  if (cFila >= 0 && cFila < this.filas) {
+  
+                     
+                      for (let cColumna = columna - 1; cColumna <= columna + 1; cColumna++) {
+                          if (cColumna >= 0 && cColumna < this.columnas) {
+  
+                              td.addEventListener('click', (e) => {
+                                  e.target.innerHTML = this.arrayTablero[fila][columna];
+                              });
+  
+                              console.log('i= ' + fila + ' : ' + 'j= ' + columna)
+                          }
+                      }
+                  }
+              }
+          }*/
+
+            if (this.arrayTablero[fila-1][columna] == '0') {
+                td.addEventListener('click', (e) => {
+                    e.target.innerHTML = this.arrayTablero[fila-1][columna];
+                });
+            }
+
+        }
     }
-}
+
+
+        modificarFilas(nuevasFilas) {
+            // Modificar el número de filas y volver a crear el tablero con las filas nuevas
+            this.filas = nuevasFilas;
+
+            this.crearTablero();
+        }
+
+        modificarColumnas(nuevasColumnas) {
+            // Modificar el número de columnas y volver a crear el tablero con las columnas nuevas
+            this.columnas = nuevasColumnas;
+
+            this.crearTablero();
+        }
+    }
 
 class Buscaminas extends Tablero {
     constructor(filas, columnas, numMinas) {
