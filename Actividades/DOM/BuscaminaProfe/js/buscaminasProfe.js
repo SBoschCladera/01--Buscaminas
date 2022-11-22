@@ -64,8 +64,39 @@ class Tablero {
         let fila = this.dataset.fila;
         let columna = this.dataset.columna;
         let identificador = this.id;
+        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
 
-        alert(`Has despejado la celda (${fila}, ${columna})`);
+        //alert(`Has despejado la celda (${fila}, ${columna})`);       
+
+        let valorCelda = this.arrayTablero[fila][columna];  // Valor de la celda del tablero. Parámetro para el evento de click.
+
+        let td = document.getElementById(identificador);
+        //console.log(valorCelda);
+
+
+        document.getElementById(identificador).innerHTML = valorCelda;
+
+
+        /*
+                    if (valorCelda == 'X') {
+                        let img = document.createElement('img'); // Coloca una imagen sustituyendo 'X'.
+                        img.setAttribute('src', url);
+                        td.innerHTML = "";
+                        td.appendChild(img);
+                        //alert('Has murido!!!!');  
+                    } else if (valorCelda == '0') {
+                        td.style.color = "green";   // Cambiamos el estilo según necesitemos.
+        
+                        console.log('i= ' + i + ' : ' + 'j= ' + j)
+        
+                    } else {
+                        td.style.color = "red";   // Cambiamos el estilo según necesitemos.
+                    }
+              
+       */
+
+
+
     }
 
     marcar() {
@@ -93,31 +124,31 @@ class Tablero {
                 img.setAttribute('src', urlBandera);
                 td.innerHTML = "";
                 td.appendChild(img);
-                document.getElementById(identificador).style.backgroundColor = "rgb(255, 255, 254)";
+                td.style.backgroundColor = "rgb(255, 255, 254)";
+                //this.colocarIcono(identificador, urlBandera, "rgb(255, 255, 254)");
                 break;
             case 'rgb(255, 255, 254)':
                 img.setAttribute('src', urlInterrogante);
                 td.innerHTML = "";
                 td.appendChild(img);
-                document.getElementById(identificador).style.backgroundColor = "rgb(255, 255, 253)";
+                td.style.backgroundColor = "rgb(255, 255, 253)";
                 break;
             case 'rgb(255, 255, 253)':
                 td.innerHTML = "";
-                document.getElementById(identificador).style.backgroundColor = "rgb(255, 255, 255)";
+                td.style.backgroundColor = "rgb(255, 255, 255)";
                 break;
         }
-
     }
-/*
-    colocarIcono(identificador, url, colorDeFondo) {
-        let td = document.getElementById(identificador);
-        let img = document.createElement('img');
-        img.setAttribute('src', url);
-        td.innerHTML = "";
-        td.appendChild(img);
-        document.getElementById(identificador).style.backgroundColor = colorDeFondo;
-    }
-*/
+    /*
+        colocarIcono(identificador, url, colorDeFondo) {
+            let td = document.getElementById(identificador);
+            let img = document.createElement('img');
+            img.setAttribute('src', url);
+            td.innerHTML = "";
+            td.appendChild(img);
+            document.getElementById(identificador).style.backgroundColor = colorDeFondo;
+        }
+    */
 
     modificarFilas(nuevasFilas) {
         // Modificar el número de filas y volver a crear el tablero con las filas nuevas
@@ -185,6 +216,6 @@ class Buscaminas extends Tablero {
 }
 
 window.onload = function () {
-    let buscaminas1 = new Buscaminas(5, 5, 5);
+    const buscaminas1 = new Buscaminas(5, 5, 5);
     buscaminas1.dibujarTableroDOM();
 }
