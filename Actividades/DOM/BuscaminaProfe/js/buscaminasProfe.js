@@ -107,10 +107,9 @@ class Tablero {
 
         if (this.lastChild == null) {
             imagen.src = urlBandera;
-            this.appendChild(imagen); console.log(this.lastChild.src)
+            this.appendChild(imagen);
         } else if (this.lastChild.src == urlBandera) {
             this.lastChild.src = urlInterrogante;
-            console.log(this.lastChild.src)
         } else if (this.lastChild.src == urlInterrogante) {
             this.innerHTML = "";
         }
