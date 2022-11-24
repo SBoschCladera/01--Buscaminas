@@ -92,63 +92,62 @@ class Tablero {
                     } else {
                         td.style.color = "red";   // Cambiamos el estilo según necesitemos.
                     }
-              
-       */
-
-
-
+                     */
     }
 
     marcar() {
-        //let fila = this.dataset.fila;         // Obtiene el valor de data-fila
-        //let columna = this.dataset.columna;   // Obtiene el valor de data-columna
-        let identificador = this.id;
-
-        // Obtiene el color del baackground de la celda
-        const elemento = document.getElementById(identificador);
-        const cssObj = window.getComputedStyle(elemento, null);
-        let color = cssObj.getPropertyValue("background-color");
-        //console.log(color)
-
-        //Deshabilita el desplegable del botón derecho del ratón en todo el documento.
-        document.addEventListener('contextmenu', event => event.preventDefault());
+        // Utilizando el elemento img
+        let imagen = document.createElement('img');
 
         let urlBandera = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f3f4.png';
         let urlInterrogante = 'https://images.emojiterra.com/mozilla/512px/2753.png';
 
-        let td = document.getElementById(identificador);
-        let img = document.createElement('img');
+        //Deshabilita el desplegable del botón derecho del ratón en todo el documento.
+        document.addEventListener('contextmenu', event => event.preventDefault());
 
-        switch (color) {
-            case 'rgb(255, 255, 255)':
-                img.setAttribute('src', urlBandera);
-                td.innerHTML = "";
-                td.appendChild(img);
-                td.style.backgroundColor = "rgb(255, 255, 254)";
-                //this.colocarIcono(identificador, urlBandera, "rgb(255, 255, 254)");
-                break;
-            case 'rgb(255, 255, 254)':
-                img.setAttribute('src', urlInterrogante);
-                td.innerHTML = "";
-                td.appendChild(img);
-                td.style.backgroundColor = "rgb(255, 255, 253)";
-                break;
-            case 'rgb(255, 255, 253)':
-                td.innerHTML = "";
-                td.style.backgroundColor = "rgb(255, 255, 255)";
-                break;
+        if (this.lastChild == null) {
+            imagen.src = urlBandera;
+            this.appendChild(imagen); console.log(this.lastChild.src)
+        } else if (this.lastChild.src == urlBandera) {
+            this.lastChild.src = urlInterrogante;
+            console.log(this.lastChild.src)
+        } else if (this.lastChild.src == urlInterrogante) {
+            this.innerHTML = "";
         }
+
+        /* 
+        Obtiene el color del baackground de la celda
+        const elemento = document.getElementById(identificador);
+        const cssObj = window.getComputedStyle(elemento, null);
+        let color = cssObj.getPropertyValue("background-color");
+        */
+
+        // Utilizando los formatos UNICODE de JS
+        /*
+        if (this.innerHTML == "") {
+            this.innerHTML = "\uD83D\uDEA9";
+        } else if (this.innerHTML == "\uD83D\uDEA9") {
+            this.innerHTML = "\u2754";
+        } else if(this.innerHTML == "\u2754") {
+            this.innerHTML = "";
+        };
+        */
+
+        // Utilizando clases en el .css
+        /*
+         switch (this.className) {
+            case "":
+                this.className = "bandera";
+                break;
+            case "bandera":
+                this.className = "interrogante";
+                break;
+            default:
+                this.className = "";
+                break;
+         }
+        */
     }
-    /*
-        colocarIcono(identificador, url, colorDeFondo) {
-            let td = document.getElementById(identificador);
-            let img = document.createElement('img');
-            img.setAttribute('src', url);
-            td.innerHTML = "";
-            td.appendChild(img);
-            document.getElementById(identificador).style.backgroundColor = colorDeFondo;
-        }
-    */
 
     modificarFilas(nuevasFilas) {
         // Modificar el número de filas y volver a crear el tablero con las filas nuevas
