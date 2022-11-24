@@ -7,25 +7,13 @@ mostrarem a la quarta columna, tal i com pots veure a la figura:
 */
 
 // Declaración de variables.
-let arrayTabla = [];
 let filas = 20;
 let columnas = 4;
 
-iniciarApp()
+iniciarApp();
 
 function iniciarApp() {
-    pintarTableroEnPantalla()
-}
-
-// Crea una tabla.
-function crearTabla(filas, columnas) {
-    for (let i = 0; i < filas; i++) {
-        arrayTabla[i] = [];
-        for (let columnas = 0; j < columnas; j++) {
-            arrayTabla[i][j] = "&nsbp";
-        }
-    }
-    return arrayTabla;
+    crearTabla();
 }
 
 // Rellena un array con 3 números aleatorios.
@@ -39,7 +27,7 @@ function arrayColores() {
 }
 
 // Pinta una tabla en pantalla con los datos solicitados.
-function pintarTableroEnPantalla() {
+function crearTabla() {
 
     let arrayEncabezado = ['ROJO', 'VERDE', 'AZUL', 'COLOR'];
 
@@ -67,7 +55,6 @@ function pintarTableroEnPantalla() {
     }
     document.write('</tbody>');
     document.write('</table>');
-
 }
 
 

@@ -9,10 +9,8 @@ Nombre d'enllaços de la pàgina.
 • Nombre d'enllaços de tots els paràgrafs
 Explica, amb comentaris dins el codi, les funcions amb les que manipules el DOM en
 aquest exercici.
-
 */
 document.addEventListener("DOMContentLoaded", function (event) {
-
 
     let numParrafos = document.body.getElementsByTagName('p').length;             // Cuenta el número de etiquetas <p>
     let totalEnlaces = document.body.getElementsByTagName('a').length;            // Cuenta el número de etiquetas <a>
@@ -57,13 +55,5 @@ document.addEventListener("DOMContentLoaded", function (event) {
             document.getElementById('info').innerHTML += '<br>'
         }
     }
-
-
     pintarDatos(numParrafos);
-
-
-
-
-
-
 });
