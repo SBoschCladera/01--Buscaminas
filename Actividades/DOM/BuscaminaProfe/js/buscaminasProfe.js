@@ -19,21 +19,6 @@ class Tablero {
         }
     }
 
-    dibujarTableroHTML() {
-        // Creamos el tablero en html
-        document.write('<table>');
-
-        for (let i = 0; i < this.filas; i++) {
-            document.write('<tr>');
-
-            for (let j = 0; j < this.columnas; j++) {
-                document.write(`<td></td>`);
-            }
-
-            document.write('</tr>');
-        }
-        document.write('</table>');
-    }
 
     dibujarTableroDOM() {
         // Creamos el tablero en DOM
@@ -44,108 +29,17 @@ class Tablero {
         for (let i = 0; i < this.filas; i++) {
             fila = document.createElement('tr');
             tabla.appendChild(fila);
-            fila.dataset.fila = i;
 
             for (let j = 0; j < this.columnas; j++) {
                 columna = document.createElement('td');
-                fila.appendChild(columna);
-                columna.id = 'f' + i + '_c' + j;
+                columna.id = `f${i}_c${j}`;
                 columna.dataset.fila = i;
                 columna.dataset.columna = j;
-
-                columna.addEventListener('click', this.despejar);
-                columna.addEventListener('contextmenu', this.marcar);
+                //columna.dataset.contenido = "oculto";
+                fila.appendChild(columna);
             }
         }
         document.body.appendChild(tabla);
-    }
-
-    despejar() {
-        let fila = this.dataset.fila;
-        let columna = this.dataset.columna;
-        let identificador = this.id;
-        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
-
-        //alert(`Has despejado la celda (${fila}, ${columna})`);       
-
-        let valorCelda = this.arrayTablero[fila][columna];  // Valor de la celda del tablero. Parámetro para el evento de click.
-
-        let td = document.getElementById(identificador);
-        //console.log(valorCelda);
-
-
-        document.getElementById(identificador).innerHTML = valorCelda;
-
-
-        /*
-                    if (valorCelda == 'X') {
-                        let img = document.createElement('img'); // Coloca una imagen sustituyendo 'X'.
-                        img.setAttribute('src', url);
-                        td.innerHTML = "";
-                        td.appendChild(img);
-                        //alert('Has murido!!!!');  
-                    } else if (valorCelda == '0') {
-                        td.style.color = "green";   // Cambiamos el estilo según necesitemos.
-        
-                        console.log('i= ' + i + ' : ' + 'j= ' + j)
-        
-                    } else {
-                        td.style.color = "red";   // Cambiamos el estilo según necesitemos.
-                    }
-                     */
-    }
-
-    marcar() {
-        // Utilizando el elemento img
-        let imagen = document.createElement('img');
-
-        let urlBandera = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f3f4.png';
-        let urlInterrogante = 'https://images.emojiterra.com/mozilla/512px/2753.png';
-
-        //Deshabilita el desplegable del botón derecho del ratón en todo el documento.
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        if (this.lastChild == null) {
-            imagen.src = urlBandera;
-            this.appendChild(imagen);
-        } else if (this.lastChild.src == urlBandera) {
-            this.lastChild.src = urlInterrogante;
-        } else if (this.lastChild.src == urlInterrogante) {
-            this.innerHTML = "";
-        }
-
-        /* 
-        Obtiene el color del baackground de la celda
-        const elemento = document.getElementById(identificador);
-        const cssObj = window.getComputedStyle(elemento, null);
-        let color = cssObj.getPropertyValue("background-color");
-        */
-
-        // Utilizando los formatos UNICODE de JS
-        /*
-        if (this.innerHTML == "") {
-            this.innerHTML = "\uD83D\uDEA9";
-        } else if (this.innerHTML == "\uD83D\uDEA9") {
-            this.innerHTML = "\u2754";
-        } else if(this.innerHTML == "\u2754") {
-            this.innerHTML = "";
-        };
-        */
-
-        // Utilizando clases en el .css
-        /*
-         switch (this.className) {
-            case "":
-                this.className = "bandera";
-                break;
-            case "bandera":
-                this.className = "interrogante";
-                break;
-            default:
-                this.className = "";
-                break;
-         }
-        */
     }
 
     modificarFilas(nuevasFilas) {
@@ -177,7 +71,6 @@ class Buscaminas extends Tablero {
         let posFila;
         let posColumna;
 
-
         while (contadorMinas < this.numMinas) {
             posFila = Math.floor(Math.random() * this.filas);
             posColumna = Math.floor(Math.random() * this.columnas);
@@ -196,11 +89,11 @@ class Buscaminas extends Tablero {
             for (let columna = 0; columna < this.columnas; columna++) {
                 numMinasAlrededor = 0;
                 if (this.arrayTablero[fila][columna] != 'MINA') {
-                    for (let cFila = fila - 1; cFila <= fila + 1; cFila++) {
-                        if (cFila >= 0 && cFila < this.filas) {
-                            for (let cColumna = columna - 1; cColumna <= columna + 1; cColumna++) {
-                                if (cColumna >= 0 && cColumna < this.columnas &&
-                                    this.arrayTablero[cFila][cColumna] == 'MINA') {
+                    for (let i = fila - 1; i <= fila + 1; i++) {
+                        if (i >= 0 && i < this.filas) {
+                            for (let j = columna - 1; j <= columna + 1; j++) {
+                                if (j >= 0 && j < this.columnas &&
+                                    this.arrayTablero[i][j] == 'MINA') {
                                     numMinasAlrededor++;
                                 }
                             }
@@ -210,6 +103,179 @@ class Buscaminas extends Tablero {
                 }
             }
         }
+    }
+
+    dibujarTableroDOM() {
+        super.dibujarTableroDOM();
+
+        let celda;
+
+        for (let i = 0; i < this.filas; i++) {
+            for (let j = 0; j < this.columnas; j++) {
+                celda = document.getElementById(`f${i}_c${j}`);
+
+                celda.addEventListener('click', this.despejar.bind(this));
+                celda.addEventListener('contextmenu', this.marcar.bind(this));
+            }
+        } console.log(this.arrayTablero)
+    }
+
+    despejar(elEvento) {
+        let evento = elEvento || window.event;
+        let celda = evento.currentTarget;
+
+        this.comprobarCero(celda);
+    }
+
+    comprobarCero(celda) {
+        let fila = celda.dataset.fila;
+        let columna = celda.dataset.columna;
+
+        let valorCelda = this.arrayTablero[fila][columna];
+        let esNumero = (valorCelda != 'MINA' && valorCelda != 0);
+        let esBomba = (valorCelda == 'MINA');
+        let bombaSeleccionadaMal;
+        let esVacio = (valorCelda == 0);
+
+        let rutaBandera = "https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f3f4.png";
+        let url = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f4a3.png';
+        let img;
+
+        let arrayFilas;
+        let arrayColumnas;
+
+        if (esNumero) {
+
+            celda.innerHTML = valorCelda;
+            celda.removeEventListener('click', this.despejar.bind(this));
+            celda.removeEventListener('contextmenu', this.marcar.bind(this));
+            celda.style.color = 'red';
+            celda.setAttribute('class', 'destapado');
+        } else if (esBomba) {
+
+            arrayFilas = celda.parentNode.parentNode.childNodes;
+            for (let tr of arrayFilas) {
+                arrayColumnas = tr.childNodes;
+                for (let td of arrayColumnas) {
+
+                    td.removeEventListener('click', this.despejar.bind(this));
+                    td.removeEventListener('contextmenu', this.marcar.bind(this));
+
+                    fila = td.dataset.fila;
+                    columna = td.dataset.columna;
+                    valorCelda = this.arrayTablero[fila][columna]
+                    if (td.lastChild != null) {
+                        bombaSeleccionadaMal = (td.lastChild.src == rutaBandera && valorCelda != 'MINA');
+
+                        if (bombaSeleccionadaMal) {
+                            td.lastChild.src = "";
+                            td.style.backgroundColor = 'red';
+                            td.innerHTML = valorCelda;
+                        } else if (valorCelda == 'MINA') {
+                            img = document.createElement('img'); // Coloca una imagen sustituyendo 'MINA'.
+                            img.setAttribute('src', url);;
+                            td.appendChild(img);
+                            //td.innerHTML = valorCelda;
+                        }
+                    } else if (valorCelda == 'MINA') {
+                        img = document.createElement('img'); // Coloca una imagen sustituyendo 'MINA'.
+                        img.setAttribute('src', url);
+                        td.appendChild(img);
+                        td.setAttribute('class', 'destapado');
+                        //td.innerHTML = valorCelda;
+                        // console.log(td.lastChild.src)                                              
+                    }
+                }
+            }
+            alert(`¡HAS PERDIDO!`);
+
+            // for (let i = 0; i < this.filas; i++) {
+            //     for (let j = 0; j < this.columnas; j++) {
+            //         document.getElementById(`f${i}_c${j}`).removeEventListener('click', this.despejar.bind(this));
+            //         document.getElementById(`f${i}_c${j}`).removeEventListener('contextmenu', this.marcar.bind(this));
+            //     }
+            // }
+
+        } else if (esVacio) {
+
+            //Obtiene el color del background de la celda
+            const elemento = document.getElementById(celda.id);
+            const cssObj = window.getComputedStyle(elemento, null);
+            let color = cssObj.getPropertyValue("background-color");
+
+            let fila = celda.dataset.fila
+            let columna = celda.dataset.columna;
+
+            celda.innerHTML = this.arrayTablero[fila][columna];
+            celda.style.backgroundColor = 'rgb(187,187,186)';
+            celda.setAttribute('class', 'destapado');
+            //celda.dataset.contenido = "despejado";
+
+            for (let i = (parseInt(fila) - 1); i <= (parseInt(fila) + 1); i++) {
+                if (i >= 0 && i < this.filas) {
+                    for (let j = (parseInt(columna) - 1); j <= (parseInt(columna) + 1); j++) {
+                        if (j >= 0 && j < this.columnas) {
+                            if (this.arrayTablero[i][j] >= 0 && celda.style.backgroundColor != color) {
+                                this.comprobarCero(document.getElementById(`f${i}_c${j}`));
+                            }
+                            //console.log(typeof(i))
+                            //console.log(typeof(j))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    marcar(elEvento) {
+        let evento = elEvento || window.event;
+        let celda = evento.currentTarget;
+
+        // Utilizando el elemento img
+        let imagen = document.createElement('img');
+
+        let urlBandera = 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f3f4.png';
+        let urlInterrogante = 'https://images.emojiterra.com/mozilla/512px/2753.png';
+
+        //Deshabilita el desplegable del botón derecho del ratón en todo el documento.
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        if (celda.lastChild == null) {
+            imagen.src = urlBandera;
+            celda.appendChild(imagen);
+            console.log(celda.lastChild.src)
+        } else if (celda.lastChild.src == urlBandera) {
+            celda.lastChild.src = urlInterrogante;
+        } else if (celda.lastChild.src == urlInterrogante) {
+            celda.innerHTML = "";
+        }
+
+        // Utilizando los formatos UNICODE de JS
+        /*
+        if (this.innerHTML == "") {
+            this.innerHTML = "\uD83D\uDEA9";
+        } else if (this.innerHTML == "\uD83D\uDEA9") {
+            this.innerHTML = "\u2754";
+        } else if(this.innerHTML == "\u2754") {
+            this.innerHTML = "";
+        };
+        */
+
+        // Utilizando clases en el .css
+        /*
+         switch (this.className) {
+            case "":
+                this.className = "bandera";
+                break;
+            case "bandera":
+                this.className = "interrogante";
+                break;
+            default:
+                this.className = "";
+                break;
+         }
+        */
     }
 }
 
