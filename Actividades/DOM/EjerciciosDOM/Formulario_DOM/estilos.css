@@ -1,6 +1,6 @@
 h2 {
     text-align: center;
-    color:DodgerBlue;
+    color: DodgerBlue;
 }
 
 div {
@@ -9,5 +9,6 @@ div {
 }
 
 p {
-    color:Tomato;
+    color: Tomato;
+    font-size: x-large;
 }
