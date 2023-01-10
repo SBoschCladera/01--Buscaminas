@@ -1,0 +1,96 @@
+@font-face {
+    font-family: 'Monoton';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Monoton'), local('Monoton-Regular'), url(http://themes.googleusercontent.com/static/fonts/monoton/v4/AKI-lyzyNHXByGHeOcds_w.woff) format('woff');
+}
+
+body {
+    background-color: rgb(34, 34, 34);
+}
+
+.flex-container {
+    display: flex;
+    align-items: stretch;
+    height: 650px;
+}
+
+.flex-container>div {
+    background-color: DodgerBlue;
+    color: white;
+    margin: 5px;
+    font-size: 30px;
+
+}
+
+h1 {
+    font-size: 60px;
+    font-weight: bolder;
+    text-align: center;
+    font-family: monoton;
+    color: rgb(255, 17, 119);
+    text-decoration: none;
+    transition: all 0.5s;
+    animation: neon 1.5s ease-in-out infinite alternate;
+}
+
+table {
+    margin: auto;
+    margin-top: -25px;
+    padding: 10px 20px;
+    border-spacing: 0px;
+    border: 3px solid rgb(204, 204, 204);
+    border-radius: 30px;
+}
+
+tr,
+td {
+    border: 1px solid transparent;
+    text-align: center;
+    padding: 5px 14px;
+}
+
+img {
+    width: 42px;
+    height: 42px;
+}
+
+#inputFilas,
+#inputColumnas {
+    width: 50px;
+}
+
+.fichas {
+    box-sizing: border-box;
+    width: 75px;
+    height: 75px;
+    line-height: 75px;
+    border-radius: 50%;
+    padding: 15px;
+    background-color: rgba(150, 236, 201, 0.986);
+    border: 3px solid rgb(9, 236, 161);
+
+    box-shadow: 0px 9px 12px rgb(148, 144, 144),
+        -2px 8px 7px rgb(150, 236, 201) inset,
+        -5px -20px 5px rgb(69, 189, 141) inset,
+        -5px -23px 5px rgb(144, 216, 187) inset;
+}
+
+@media (min-width: 1600px) {
+
+    tr,
+    td {
+        padding: 15px;
+    }
+
+    img {
+        width: 55px;
+        height: 55px;
+    }
+
+    .fichas {
+        width: 90px;
+        height: 90px;
+        line-height: 90px;
+    }
+}

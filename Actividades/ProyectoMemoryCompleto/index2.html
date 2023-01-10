@@ -5,22 +5,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Memoria</title>
-    <script src="js/memory.js"></script>
-    <link rel="stylesheet" href="css/estilos.css">
+    <title>Document</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .flex-container {
+            display: flex;
+            align-items: stretch;
+            height: 650px;
+        }
+
+        .flex-container>div {
+            background-color: DodgerBlue;
+            color: white;
+            margin: 5px;
+            font-size: 30px;
+
+        }
+
+        img {
+            width: 42px;
+            height: 42px;
+        }
+    </style>
+     <script src="prueba.js"></script>
 </head>
 
 <body>
     <h1>MEMORY</h1>
     <div class="flex-container">
-        <div id="divDatos" style="flex-grow: 1">
+        <div style="flex-grow: 1">
             <div id="filas">
                 <label for="numFilas">nº de filas</label>
-                <input type="number" name="numeroFilas" id="inputFilas" min="2" max="6" value="2">
+                <input type="number" name="numeroFilas" id="inputFilas" style="width:50px" min="2">
             </div>
             <div id="columnas">
                 <label for="numColumnas">nº de columnas</label>
-                <input type="number" name="numeroColumnas" id="inputColumnas" min="2" max="12" value="2">
+                <input type="number" name="numeroColumnas" id="inputColumnas" style="width:50px" min="2">
             </div>
             <div id="tematica">
                 <label for="numColumnas">Elige una temática</label><br>
@@ -31,7 +54,8 @@
             <div id="timer">timer</div>
             <div id="puntos">puntos</div>
         </div>
-        <div id="divTablero" style="flex-grow: 9" ></div>
+        <div style="flex-grow: 9">3</div>
+    </div>
 </body>
 
 </html>
