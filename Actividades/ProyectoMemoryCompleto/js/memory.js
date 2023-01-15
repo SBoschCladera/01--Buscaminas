@@ -268,40 +268,7 @@ class Memory extends Tablero {
     this.verContenido(celda);
   }
 
-  verContenido(celda) {
-    let fila = parseInt(celda.dataset.fila);
-    let columna = parseInt(celda.dataset.columna);
-    let valorCelda = this.tablero[fila][columna];
-
-    celda.innerHTML = valorCelda;
-    this.arrayCeldasDescubiertas.push(celda);
-
-    celda.removeEventListener("click", this.despejar);
-    console.log(celda.id);
-    this.contador++;
-
-    if (this.contador == 2) {
-
-      let celdaVisible1 = this.arrayCeldasDescubiertas[0];
-      let celdaVisible2 = this.arrayCeldasDescubiertas[1];
-      if (celdaVisible1.firstChild.src === celdaVisible2.firstChild.src) {
-        celdaVisible1.removeEventListener("click", this.despejar);
-        celdaVisible2.removeEventListener("click", this.despejar);
-        this.arrayCeldasDescubiertas = [];
-      } else {
-      
-        let timeOut = setTimeout(() => {
-            document.getElementById(celdaVisible1.id).addEventListener('click', this.despejar);
-            document.getElementById(celdaVisible2.id).addEventListener('click', this.despejar);
-            document.getElementById(celdaVisible1.id).innerHTML = "";
-          document.getElementById(celdaVisible2.id).innerHTML = "";
-        }, 2000);
-        
-        this.arrayCeldasDescubiertas = [];
-      }
-      this.contador = 0;
-    }
-  }
+  
 }
 
 window.onload = function () {
