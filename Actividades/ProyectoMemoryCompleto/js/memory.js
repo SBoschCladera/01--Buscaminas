@@ -135,7 +135,6 @@ class Memory extends Tablero {
     this.columnas = columnas;
 
     this.arrayCeldasDescubiertas = [];
-    this.arrayValores = [];
     this.contador = 0;
 
     this.pintarTableroEnPantalla();
