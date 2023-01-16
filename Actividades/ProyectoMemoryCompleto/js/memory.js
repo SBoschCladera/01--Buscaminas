@@ -133,11 +133,13 @@ class Memory extends Tablero {
     this.tematicaPareja = tematicaPareja;
     this.filas = filas;
     this.columnas = columnas;
+    this.numParejas = (this.filas * this.columnas) / 2;
 
     this.arrayCeldasDescubiertas = [];
     this.contador = 0;
+    this.contadorParejas = 0;
 
-    this.pintarTableroEnPantalla();
+    this.dibujarTableroDOM();
   }
 
   // Rellena un array con las imágenes por duplicado (par crear parejas) contenidas en el directorio imagen,
@@ -145,63 +147,44 @@ class Memory extends Tablero {
   // Devuelve un array con el número de parejas solicitadas por el usuario colocadas en posiciones aleatorias.
   // Las 10 primeras parejas siempre serán diferentes, comienzan a repetirse a partir de la pareja número 11.
   arrayDeParejas() {
-    let numParejas = (this.filas * this.columnas) / 2;
+    //let numParejas = (this.filas * this.columnas) / 2;
+    console.log("numPrejas = " + this.numParejas);
     const arrayParejas = [];
 
-    for (let i = 0; i < numParejas; i++) {
-      if (this.tematicaPareja == 1) {
-        this.tematicaPareja = "animales";
-      }
-      if (this.tematicaPareja == 2) {
-        this.tematicaPareja = "halloween";
-      }
-      if (this.tematicaPareja == 3) {
-        this.tematicaPareja = "pokemon";
-      }
+    if (this.tematicaPareja == 1) {
+      this.tematicaPareja = "animales";
+    }
+    if (this.tematicaPareja == 2) {
+      this.tematicaPareja = "halloween";
+    }
+    if (this.tematicaPareja == 3) {
+      this.tematicaPareja = "pokemon";
+    }
 
-      // Cuando el número de parejas es mayor de 10, rellena con valores aleatorios hasta llegar al número de parejas necesarias.
-      if (i > 9) {
+    // Cuando el número de parejas es mayor de 10, rellena con valores aleatorios hasta llegar al número de parejas necesarias.
+    if (this.numParejas > 9) {
+      for (let i = 0; i < this.numParejas; i++) {
         let parejaAleatoria = parseInt(Math.random() * 10);
-        arrayParejas.push(
-          '<img src="imagenes/' +
-            this.tematicaPareja +
-            "/" +
-            parejaAleatoria +
-            '.png" alt="imagen' +
-            i +
-            '"></img>'
-        );
-        arrayParejas.push(
-          '<img src="imagenes/' +
-            this.tematicaPareja +
-            "/" +
-            parejaAleatoria +
-            '.png" alt="imagen' +
-            i +
-            '"></img>'
-        );
-      } else {
-        arrayParejas.push(
-          '<img src="imagenes/' +
-            this.tematicaPareja +
-            "/" +
-            i +
-            '.png" alt="imagen' +
-            i +
-            '"></img>'
-        );
-        arrayParejas.push(
-          '<img src="imagenes/' +
-            this.tematicaPareja +
-            "/" +
-            i +
-            '.png" alt="imagen' +
-            i +
-            '"></img>'
-        );
+
+        for (let j = 0; j < 2; j++) {
+          let imagen = document.createElement("img");
+          imagen.src = `imagenes/${this.tematicaPareja}/${parejaAleatoria}.png`;
+          imagen.alt = `${this.tematicaPareja}j`;
+          arrayParejas.push(imagen);
+        }
+      }
+    } else {
+      for (let i = 0; i < this.numParejas; i++) {
+        for (let j = 0; j < 2; j++) {
+          let imagen = document.createElement("img");
+          imagen.src = `imagenes/${this.tematicaPareja}/${i}.png`;
+          imagen.alt = `${this.tematicaPareja}j`;
+          arrayParejas.push(imagen);
+        }
       }
     }
     this.desordenarArray(arrayParejas);
+
     return arrayParejas;
   }
 
@@ -230,7 +213,7 @@ class Memory extends Tablero {
   }
 
   // Pinta el tablero definitivo en pantalla.
-  pintarTableroEnPantalla() {
+  dibujarTableroDOM() {
     let tableroConParejas = this.colocarParejas();
 
     let tabla = document.createElement("table");
@@ -250,9 +233,7 @@ class Memory extends Tablero {
         columna.dataset.columna = j;
         columna.className = "fichas";
 
-        let contenidoCelda = "";
-        columna.innerHTML = contenidoCelda;
-
+        columna.innerHTML = "";
         columna.addEventListener("click", this.despejar);
 
         fila.appendChild(columna);
@@ -265,7 +246,7 @@ class Memory extends Tablero {
     let evento = elEvento || window.event;
     let celda = evento.currentTarget;
 
-    this.verContenido(celda);
+    this.mostrarContenido(celda);
   }
 
   
