@@ -139,6 +139,13 @@ class Memory extends Tablero {
     this.contador = 0;
     this.contadorParejas = 0;
 
+
+
+    this.fichaSeleccionada1, this.fichaSeleccionada2, this.fichaSeleccionada3, this.fichaSeleccionada4;
+    this.intentoCasilla1 = 0;
+    this.intentoCasilla2 = 0;
+
+
     this.dibujarTableroDOM();
   }
 
@@ -268,18 +275,38 @@ class Memory extends Tablero {
     if (this.contador == 2) {
       let celdaVisible1 = this.arrayCeldasDescubiertas[0];
       let celdaVisible2 = this.arrayCeldasDescubiertas[1];
+      let array = [celdaVisible1, celdaVisible2];
+
+      // if (celda.id == array[0].id) {
+      //   console.log('celda -> ' + celda.id)
+      //   alert('hola')
+      // }
+
+
+      // console.log('array -> ' + array[0].id)
+      // console.log(celdaVisible1.id)
+      // console.log(this.intentoCasilla1)
+
+
+
       if (celdaVisible1.firstChild.src === celdaVisible2.firstChild.src) {
         celdaVisible1.removeEventListener("click", this.despejar);
         celdaVisible2.removeEventListener("click", this.despejar);
         this.arrayCeldasDescubiertas = [];
         this.contadorParejas++;
+
         //console.log(this.contadorParejas)
         if (this.contadorParejas == this.numParejas) {
-          alert("YOU WIN!!!!!");
+          let tiempo = document.getElementById('timer').textContent;
+          alert("YOU WIN!!!!!" + tiempo);
+
+          console.log(tiempo)
           if (confirm("¿Quieres volver a jugar?")) {
             document.location = `index.html`;
           } else {
+
             alert("¡Hasta la próxima!");
+
           }
         }
       } else {
@@ -300,6 +327,24 @@ class Memory extends Tablero {
     }
   }
   
+
+  contadorSegundos(contSegundos, contMinutos) {
+    window.setInterval(function () {
+      if (contSegundos >= 0 && contSegundos < 10) {
+        contSegundos = `0${contSegundos}`;
+      }
+      if (contSegundos > 59) {
+        contSegundos = 0;
+        contMinutos++;
+      }
+      document.getElementById("timer").innerHTML = `${contMinutos}:${contSegundos}`;
+      contSegundos++;
+    }, 200);
+  }
+
+  pararContadorSegundos() {
+    clearInterval(this.contadorSegundos);
+  }
 }
 
 window.onload = function () {
