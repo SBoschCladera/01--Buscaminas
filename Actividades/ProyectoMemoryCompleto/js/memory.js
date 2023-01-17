@@ -139,12 +139,13 @@ class Memory extends Tablero {
     this.contador = 0;
     this.contadorParejas = 0;
 
-
-
-    this.fichaSeleccionada1, this.fichaSeleccionada2, this.fichaSeleccionada3, this.fichaSeleccionada4;
+    this.fichaSeleccionada1,
+      this.fichaSeleccionada2,
+      this.fichaSeleccionada3,
+      this.fichaSeleccionada4;
     this.intentoCasilla1 = 0;
     this.intentoCasilla2 = 0;
-
+    this.tiempo;
 
     this.dibujarTableroDOM();
   }
@@ -174,6 +175,7 @@ class Memory extends Tablero {
         let parejaAleatoria = parseInt(Math.random() * 10);
 
         for (let j = 0; j < 2; j++) {
+          // Crear un objeto Imagen tantas veces como el número de parejas necesarias (mayor de 10 unidades) y lo añade por duplicado en el array "arrayParejas".
           let imagen = document.createElement("img");
           imagen.src = `imagenes/${this.tematicaPareja}/${parejaAleatoria}.png`;
           imagen.alt = `${this.tematicaPareja}j`;
@@ -181,6 +183,7 @@ class Memory extends Tablero {
         }
       }
     } else {
+      // Crear un objeto Imagen tantas veces como el número de parejas necesarias (menor o igual a 10 unidades) y lo añade por duplicado en el array "arrayParejas".
       for (let i = 0; i < this.numParejas; i++) {
         for (let j = 0; j < 2; j++) {
           let imagen = document.createElement("img");
@@ -205,7 +208,7 @@ class Memory extends Tablero {
     });
   }
 
-  // Introduce el valor de cada posición del array con las url de las imágenes en el tablero.
+  // Introduce el valor de cada posición del array con los objetos Imagen en el tablero.
   colocarParejas() {
     let arrayConParejas = this.arrayDeParejas();
     let contador = 0;
@@ -219,7 +222,7 @@ class Memory extends Tablero {
     return this.tablero;
   }
 
-  // Pinta el tablero definitivo en pantalla.
+  // Pinta el tablero vacío en pantalla y añade un evento a cada celda.
   dibujarTableroDOM() {
     let tableroConParejas = this.colocarParejas();
 
@@ -248,12 +251,19 @@ class Memory extends Tablero {
     }
     document.getElementById("divTablero").appendChild(tabla);
 
+    // Añade un evento de click al botón de reinicio.
     let boton = document.getElementById("botonReinicio");
     boton.addEventListener("click", this.reiniciar);
 
+    // Arranca el contador de tiempo.
     this.contadorSegundos(0, 0);
+
+    // Marcador de puntuación.
+    let maximaPuntuacion = this.numParejas * 10;
+    document.getElementById("puntos").innerHTML = `0 / ${maximaPuntuacion}` ;
   }
 
+  // Aplica el evento añadido en el ámbito de la celda.
   despejar(elEvento) {
     let evento = elEvento || window.event;
     let celda = evento.currentTarget;
@@ -275,20 +285,12 @@ class Memory extends Tablero {
     if (this.contador == 2) {
       let celdaVisible1 = this.arrayCeldasDescubiertas[0];
       let celdaVisible2 = this.arrayCeldasDescubiertas[1];
-      let array = [celdaVisible1, celdaVisible2];
 
-      // if (celda.id == array[0].id) {
-      //   console.log('celda -> ' + celda.id)
-      //   alert('hola')
-      // }
+      /****************************************** */
 
+      
 
-      // console.log('array -> ' + array[0].id)
-      // console.log(celdaVisible1.id)
-      // console.log(this.intentoCasilla1)
-
-
-
+      /******************************************* */
       if (celdaVisible1.firstChild.src === celdaVisible2.firstChild.src) {
         celdaVisible1.removeEventListener("click", this.despejar);
         celdaVisible2.removeEventListener("click", this.despejar);
@@ -297,16 +299,14 @@ class Memory extends Tablero {
 
         //console.log(this.contadorParejas)
         if (this.contadorParejas == this.numParejas) {
-          let tiempo = document.getElementById('timer').textContent;
-          alert("YOU WIN!!!!!" + tiempo);
-
-          console.log(tiempo)
+          let tiempoTranscurrido = document.getElementById("timer").textContent;
+          alert("YOU WIN!!!!!" + tiempoTranscurrido);
+          this.pararContadorSegundos();
           if (confirm("¿Quieres volver a jugar?")) {
             document.location = `index.html`;
           } else {
-
             alert("¡Hasta la próxima!");
-
+            this.pararContadorSegundos();
           }
         }
       } else {
@@ -326,10 +326,17 @@ class Memory extends Tablero {
       this.contador = 0;
     }
   }
-  
 
+  // Muestra un cuadro de diálogo en el que el usuario puedo reiniciar la partida.
+  reiniciar() {
+    if (confirm("¿Desea reiniciar la partida?")) {
+      document.location = `index.html`;
+    }
+  }
+
+  // Contador de tiempo.
   contadorSegundos(contSegundos, contMinutos) {
-    window.setInterval(function () {
+    this.tiempo = window.setInterval(function () {
       if (contSegundos >= 0 && contSegundos < 10) {
         contSegundos = `0${contSegundos}`;
       }
@@ -337,13 +344,16 @@ class Memory extends Tablero {
         contSegundos = 0;
         contMinutos++;
       }
-      document.getElementById("timer").innerHTML = `${contMinutos}:${contSegundos}`;
+      document.getElementById(
+        "timer"
+      ).innerHTML = `${contMinutos}:${contSegundos}`;
       contSegundos++;
     }, 200);
   }
 
+  // Cancela el contador de tiempo.
   pararContadorSegundos() {
-    clearInterval(this.contadorSegundos);
+    clearInterval(this.tiempo);
   }
 }
 
