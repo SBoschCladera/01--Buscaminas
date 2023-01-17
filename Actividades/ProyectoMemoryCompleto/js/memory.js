@@ -133,11 +133,12 @@ class Memory extends Tablero {
     this.tematicaPareja = tematicaPareja;
     this.filas = filas;
     this.columnas = columnas;
-    this.numParejas = (this.filas * this.columnas) / 2;
 
+    this.numParejas = (this.filas * this.columnas) / 2;
     this.arrayCeldasDescubiertas = [];
     this.contador = 0;
     this.contadorParejas = 0;
+    this.tiempo;
 
     this.fichaSeleccionada1,
       this.fichaSeleccionada2,
@@ -145,7 +146,9 @@ class Memory extends Tablero {
       this.fichaSeleccionada4;
     this.intentoCasilla1 = 0;
     this.intentoCasilla2 = 0;
-    this.tiempo;
+
+    this.maximaPuntuacion = this.numParejas * 10;
+    this.puntuacion = 0;
 
     this.dibujarTableroDOM();
   }
@@ -259,8 +262,8 @@ class Memory extends Tablero {
     this.contadorSegundos(0, 0);
 
     // Marcador de puntuación.
-    let maximaPuntuacion = this.numParejas * 10;
-    document.getElementById("puntos").innerHTML = `0 / ${maximaPuntuacion}` ;
+        
+    document.getElementById("puntos").innerHTML = ` 0 / ${this.maximaPuntuacion}`;
   }
 
   // Aplica el evento añadido en el ámbito de la celda.
@@ -288,7 +291,7 @@ class Memory extends Tablero {
 
       /****************************************** */
 
-      
+ 
 
       /******************************************* */
       if (celdaVisible1.firstChild.src === celdaVisible2.firstChild.src) {
@@ -296,6 +299,12 @@ class Memory extends Tablero {
         celdaVisible2.removeEventListener("click", this.despejar);
         this.arrayCeldasDescubiertas = [];
         this.contadorParejas++;
+
+        /**************************** */
+
+        
+
+        /**************************** */
 
         //console.log(this.contadorParejas)
         if (this.contadorParejas == this.numParejas) {
