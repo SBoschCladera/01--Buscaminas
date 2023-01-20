@@ -18,23 +18,24 @@ class Tablero {
       }
     }
     this.tablero;
+    console.log(this.tablero);
   }
 }
 
 // Crea la clase Juego
 class Juego {
   constructor() {
-    this.maxFilas = 6; //document.getElementById('inputFilas').getAttribute('max');
-    this.maxColumnas = 12; //document.getElementById('inputColumnas').getAttribute('max');
+    this.maxFilas = 4;
+    this.maxColumnas = 10;
 
-    this.pedirDatosUsuario();
+    this.comprobarNumeroParejas();
   }
 
   // Solicita al usuario el número de filas, columnas y la temática de las parejas para el tablero, cumpliendo unas
   // ciertas condiciones.
-  pedirDatosUsuario() {
+  comprobarNumeroParejas() {
     // Solicita número de filas y columas mediante prompt.
-    this.inputDatoUsuario();
+    this.filasColumnasTablero();
 
     // Comprueba si el número de casillas del tablero es correcto (debe ser un número par) y debe contener un
     // mínimo de 2 parejas.
@@ -42,13 +43,11 @@ class Juego {
 
     while ((this.filas * this.columnas) % 2 != 0 || numParejas < 2) {
       if ((this.filas * this.columnas) % 2 != 0) {
-        alert(
-          "El número de parejas debe ser PAR, introduce los datos de nuevo."
-        );
+        alert("El número de parejas debe ser PAR, introduce los datos de nuevo.");
       } else if (numParejas < 2) {
         alert("El número mínimo de parejas debe ser 2.");
       }
-      this.inputDatoUsuario();
+      this.filasColumnasTablero();
 
       numParejas = parseInt((this.filas * this.columnas) / 2);
     }
@@ -61,33 +60,25 @@ class Juego {
   }
 
   // Solicita número de filas y columas al usuario, éstas deben cumplir una serie de condiciones.
-  inputDatoUsuario() {
-    this.filas = prompt("Número de filas del tablero: "); //document.getElementById('inputFilas').value
+  filasColumnasTablero() {
+    this.filas = prompt("Número de filas del tablero: ");
 
     // Personaliza el mensaje de salida para las filas según el error detectado.
-    while (
-      !Number(this.filas) ||
-      this.filas < 1 ||
-      this.filas > this.maxFilas
-    ) {
-      this.condicionesDatoInput(this.filas, this.maxFilas, "filas");
+    while (!Number(this.filas) || this.filas < 1 || this.filas > this.maxFilas) {
+      this.condicionesFilasColumnas(this.filas, this.maxFilas, "filas");
       this.filas = prompt("Número de filas del tablero: ");
     }
 
-    this.columnas = prompt("Número de columnas del tablero: "); //document.getElementById('inputColumnas').value
+    this.columnas = prompt("Número de columnas del tablero: ");
     // ... y para las columnas.
-    while (
-      !Number(this.columnas) ||
-      this.columnas < 1 ||
-      this.columnas > this.maxColumnas
-    ) {
-      this.condicionesDatoInput(this.columnas, this.maxColumnas, "columnas");
+    while (!Number(this.columnas) || this.columnas < 1 || this.columnas > this.maxColumnas) {
+      this.condicionesFilasColumnas(this.columnas, this.maxColumnas, "columnas");
       this.columnas = prompt("Número de columnas del tablero: ");
     }
   }
 
   // Comprueba si se cumplen ciertas condiciones, personalizando el mensaje de salida.
-  condicionesDatoInput(filaColumna, maxFilasColumnas, texto) {
+  condicionesFilasColumnas(filaColumna, maxFilasColumnas, texto) {
     if (filaColumna < 1 || !Number(filaColumna)) {
       alert("Debes introducir un valor númerico positivo.");
     } else if (filaColumna > maxFilasColumnas) {
@@ -108,14 +99,8 @@ class Juego {
     this.tematicaPareja = prompt(mensaje);
 
     // Condiciones para la entrada de datos.
-    while (
-      !(
-        expresionRegular1.test(this.tematicaPareja) ||
-        expresionRegular2.test(this.tematicaPareja) ||
-        expresionRegular3.test(this.tematicaPareja) ||
-        expresionRegular4.test(this.tematicaPareja)
-      )
-    ) {
+    while (!(expresionRegular1.test(this.tematicaPareja) || expresionRegular2.test(this.tematicaPareja) ||
+        expresionRegular3.test(this.tematicaPareja) || expresionRegular4.test(this.tematicaPareja))) {
       alert(mensajeAlert);
       this.tematicaPareja = prompt(mensaje);
     }
@@ -135,20 +120,21 @@ class Memory extends Tablero {
     this.columnas = columnas;
 
     this.numParejas = (this.filas * this.columnas) / 2;
-    this.arrayCeldasDescubiertas = [];
+    this.parejasDescubiertas = [];
     this.contador = 0;
     this.contadorParejas = 0;
     this.tiempo;
-
-    this.fichaSeleccionada1,
-      this.fichaSeleccionada2,
-      this.fichaSeleccionada3,
-      this.fichaSeleccionada4;
-    this.intentoCasilla1 = 0;
-    this.intentoCasilla2 = 0;
-
     this.maximaPuntuacion = this.numParejas * 10;
     this.puntuacion = 0;
+    this.celdasDescubiertas = [];
+    
+    this.contadorIntento1 = 0;
+    this.contadorIntento2 = 0;
+    this.contadorRepeticionesCeldaDecubierta1 = 0;
+    this.penultimaCelda = "";
+    this.ultimaCelda = "";
+
+
 
     this.dibujarTableroDOM();
   }
@@ -158,7 +144,6 @@ class Memory extends Tablero {
   // Devuelve un array con el número de parejas solicitadas por el usuario colocadas en posiciones aleatorias.
   // Las 10 primeras parejas siempre serán diferentes, comienzan a repetirse a partir de la pareja número 11.
   arrayDeParejas() {
-    //let numParejas = (this.filas * this.columnas) / 2;
     console.log("numPrejas = " + this.numParejas);
     const arrayParejas = [];
 
@@ -227,11 +212,10 @@ class Memory extends Tablero {
 
   // Pinta el tablero vacío en pantalla y añade un evento a cada celda.
   dibujarTableroDOM() {
-    let tableroConParejas = this.colocarParejas();
+    this.colocarParejas();
 
     let tabla = document.createElement("table");
-    let fila;
-    let columna;
+    let fila, columna;
 
     this.despejar = this.despejar.bind(this);
 
@@ -247,7 +231,11 @@ class Memory extends Tablero {
         columna.className = "fichas";
 
         columna.innerHTML = "";
-        columna.addEventListener("click", this.despejar);
+        columna.addEventListener("contextmenu", this.despejar);
+
+        document.addEventListener("contextmenu", (event) =>
+          event.preventDefault()
+        );
 
         fila.appendChild(columna);
       }
@@ -262,8 +250,9 @@ class Memory extends Tablero {
     this.contadorSegundos(0, 0);
 
     // Marcador de puntuación.
-        
+
     document.getElementById("puntos").innerHTML = ` 0 / ${this.maximaPuntuacion}`;
+    document.getElementById( "contadorID").innerHTML = `${this.contadorRepeticionesCeldaDecubierta1}`;
   }
 
   // Aplica el evento añadido en el ámbito de la celda.
@@ -279,60 +268,122 @@ class Memory extends Tablero {
     let columna = parseInt(celda.dataset.columna);
     let valorCelda = this.tablero[fila][columna];
 
-    celda.appendChild(valorCelda);
-    this.arrayCeldasDescubiertas.push(celda);
+    console.log(celda.id);
+    document.getElementById("contadorID").innerHTML =
+      this.contadorRepeticionesCeldaDecubierta1;
 
-    celda.removeEventListener("click", this.despejar);
+    celda.appendChild(valorCelda);
+    this.parejasDescubiertas.push(celda);
+
+    celda.removeEventListener("contextmenu", this.despejar);
     this.contador++;
 
+    this.celdasDescubiertas.push(celda);
+
+    // this.contadorRepeticionesCeldaDecubierta1 = 0;
+    // this.contadorRepeticionesCeldaDecubierta2 = 0;
+    /******************************************************************************************************************************************************************* */
+
     if (this.contador == 2) {
-      let celdaVisible1 = this.arrayCeldasDescubiertas[0];
-      let celdaVisible2 = this.arrayCeldasDescubiertas[1];
+      let celdaDescubierta1 = this.parejasDescubiertas[0];
+      let celdaDescubierta2 = this.parejasDescubiertas[1];
+      //console.log('celdasDescubiertas2 (contador = 2)--> ' + this.celdasDescubiertas);
 
-      /****************************************** */
-
- 
-
-      /******************************************* */
-      if (celdaVisible1.firstChild.src === celdaVisible2.firstChild.src) {
-        celdaVisible1.removeEventListener("click", this.despejar);
-        celdaVisible2.removeEventListener("click", this.despejar);
-        this.arrayCeldasDescubiertas = [];
+      if (
+        celdaDescubierta1.firstChild.src === celdaDescubierta2.firstChild.src
+      ) {
+        celdaDescubierta1.removeEventListener("contextmenu", this.despejar);
+        celdaDescubierta2.removeEventListener("contextmenu", this.despejar);
+        this.parejasDescubiertas = [];
         this.contadorParejas++;
+        this.contadorRepeticionesCeldaDecubierta1 = 1;
 
-        /**************************** */
+        // Marcador de puntuación.
+        this.puntuacionParejas();
+        document.getElementById("puntos").innerHTML = `${this.puntuacion} / ${this.maximaPuntuacion}`;
 
-        
+        this.contadorRepeticionesCeldaDecubierta1 = 0;
+        this.celdasDescubiertas = [];
 
-        /**************************** */
-
-        //console.log(this.contadorParejas)
         if (this.contadorParejas == this.numParejas) {
-          let tiempoTranscurrido = document.getElementById("timer").textContent;
-          alert("YOU WIN!!!!!" + tiempoTranscurrido);
-          this.pararContadorSegundos();
-          if (confirm("¿Quieres volver a jugar?")) {
-            document.location = `index.html`;
-          } else {
-            alert("¡Hasta la próxima!");
+          setTimeout(() => {
+            let tiempoTranscurrido = document.getElementById("reloj").textContent;
+            alert("YOU WIN!!!!!\n" + "Has parado el crono en " + tiempoTranscurrido +
+                "\n y has conseguido " + this.puntuacion + " puntos.");
             this.pararContadorSegundos();
-          }
+            if (confirm("¿Quieres volver a jugar?")) {
+              document.location = `index.html`;
+            } else {
+              alert("¡Hasta la próxima!");
+              this.pararContadorSegundos();
+            }
+          }, 500);
         }
       } else {
-        let timeOut = setTimeout(() => {
-          document
-            .getElementById(celdaVisible1.id)
-            .addEventListener("click", this.despejar);
-          document
-            .getElementById(celdaVisible2.id)
-            .addEventListener("click", this.despejar);
-          document.getElementById(celdaVisible1.id).innerHTML = "";
-          document.getElementById(celdaVisible2.id).innerHTML = "";
-        }, 2000);
+        this.contadorRepeticionesCeldaDecubierta1++;
+        document.getElementById("contadorID").innerHTML = `${this.contadorRepeticionesCeldaDecubierta1}`;
 
-        this.arrayCeldasDescubiertas = [];
+        if (this.celdasDescubiertas.length == 4) {
+          if (this.celdasDescubiertas[2].firstChild.src != this.celdasDescubiertas[3].firstChild.src) {
+            console.log(this.celdasDescubiertas[2].firstChild.src);
+            console.log(this.celdasDescubiertas[3].firstChild.src);
+            for (let i = 2; i < this.celdasDescubiertas.length; i++) {
+              if (this.celdasDescubiertas[0] != this.celdasDescubiertas[i] && this.celdasDescubiertas[1] != this.celdasDescubiertas[i]) {
+                this.celdasDescubiertas = [this.celdasDescubiertas[2], this.celdasDescubiertas[3]];
+                this.contadorRepeticionesCeldaDecubierta1 = 1;
+                document.getElementById("contadorID").innerHTML = `${this.contadorRepeticionesCeldaDecubierta1}`;
+              } else {
+                // this.contadorRepeticionesCeldaDecubierta1--;
+                // document.getElementById("contadorID").innerHTML = `${this.contadorRepeticionesCeldaDecubierta1}`;
+
+                for (let i = 2; i < this.celdasDescubiertas.length; i++) {
+                  if (this.celdasDescubiertas[0] == this.celdasDescubiertas[i]) {
+                    this.contadorIntento1++;
+                    this.contadorRepeticionesCeldaDecubierta1 = this.contadorIntento1;
+                    document.getElementById("contadorID").innerHTML = `${this.contadorRepeticionesCeldaDecubierta1}`;
+                  }
+                  if (this.celdasDescubiertas[1] == this.celdasDescubiertas[i]) {
+                    this.contadorIntento2++;
+                    this.contadorRepeticionesCeldaDecubierta1 = this.contadorIntento2;
+                    document.getElementById("contadorID").innerHTML = `${this.contadorRepeticionesCeldaDecubierta1}`;
+                  }
+                }
+              }
+            }
+          } else {
+            this.contadorRepeticionesCeldaDecubierta1 = 1;
+            document.getElementById("contadorID").innerHTML = `${this.contadorRepeticionesCeldaDecubierta1}`;
+          }
+          // if (this.celdasDescubiertas[0] != this.celdasDescubiertas[2] && this.celdasDescubiertas[0] != this.celdasDescubiertas[3] &&
+          //   this.celdasDescubiertas[1] != this.celdasDescubiertas[2] && this.celdasDescubiertas[1] != this.celdasDescubiertas[3]) {
+
+          //   this.celdasDescubiertas = [this.celdasDescubiertas[2], this.celdasDescubiertas[3]];
+          // }
+        }
+
+        this.parejasDescubiertas = [];
+
+        setTimeout(() => {
+          document.getElementById(celdaDescubierta1.id).addEventListener("contextmenu", this.despejar);
+          document.getElementById(celdaDescubierta2.id).addEventListener("contextmenu", this.despejar);
+          document.getElementById(celdaDescubierta1.id).innerHTML = "";
+          document.getElementById(celdaDescubierta2.id).innerHTML = "";
+        }, 1200);
       }
       this.contador = 0;
+    }
+  }
+
+  // Puntúa el acierto en la pareja según el número de intentos efectuados.
+  puntuacionParejas() {
+    if (this.contadorRepeticionesCeldaDecubierta1 == 1) {
+      this.puntuacion = this.puntuacion + 10;
+    }
+    if (this.contadorRepeticionesCeldaDecubierta1 == 2) {
+      this.puntuacion = this.puntuacion + 5;
+    }
+    if (this.contadorRepeticionesCeldaDecubierta1 == 3) {
+      this.puntuacion = this.puntuacion + 2.5;
     }
   }
 
@@ -350,14 +401,14 @@ class Memory extends Tablero {
         contSegundos = `0${contSegundos}`;
       }
       if (contSegundos > 59) {
-        contSegundos = 0;
+        contSegundos = `0${0}`;
         contMinutos++;
       }
       document.getElementById(
-        "timer"
+        "reloj"
       ).innerHTML = `${contMinutos}:${contSegundos}`;
       contSegundos++;
-    }, 200);
+    }, 1000);
   }
 
   // Cancela el contador de tiempo.
