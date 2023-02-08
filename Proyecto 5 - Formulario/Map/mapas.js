@@ -4,93 +4,40 @@ const registroPacientes = new Map([
     [`YUN835`, `Benítez E. (154811767) -> Av.Argentina, 5`]
 ]);
 
-// console.log(registroPacientes)
-
-
-
 
 let cont = 1;
 
+// Muestra los datos en con un MAP().
 const pacientes = new Map();
-registroPacientes.forEach(function (value, key) {
-    numeroRegistro = `${key}`;
-    nombreCompleto = `${value.split('(')[0]}`;
-    numeroSS = `${value.split('(')[1].substring(0, 9)}`;
-    direccion = `${value.split('>')[1].substring(1)}`;
+for (let [clave, valor] of registroPacientes) {
+    numeroRegistro = clave;
+    nombreCompleto = valor.split('(')[0];
+    numeroSS = valor.split('(')[1].substring(0, 9);
+    direccion = valor.split('>')[1].substring(1);
 
-    pacientes.set(`Paciente ${cont}`, `\nnumeroRegistro: ${numeroRegistro}\nnombreCompleto: ${nombreCompleto}\nnumeroSS: ${numeroSS}\ndireccion: ${direccion}`)
-    cont++
-});
+    const datosPersonales = new Map();
+    datosPersonales.set('numeroRegistro: ', numeroRegistro).set('nombreCompleto: ', nombreCompleto);
+    datosPersonales.set('numeroSS: ', numeroSS).set('direccion: ', direccion);
+
+    pacientes.set(`Paciente ${cont}`, datosPersonales);
+    cont++;
+}
 
 console.log(pacientes)
 
 
 
-
-
-
-
-// let text = "";
+// VERSIÓN DISTINTA, PARECIDO RESULTADO.
+// const pacientes = new Map();
 // registroPacientes.forEach(function (value, key) {
-//     text += key + "\n"
-// })
+//     numeroRegistro = `${key}`;
+//     nombreCompleto = `${value.split('(')[0]}`;
+//     numeroSS = `${value.split('(')[1].substring(0, 9)}`;
+//     direccion = `${value.split('>')[1].substring(1)}`;
 
-// console.log(text)
-
-
-
-// let pacientes = "";
-// registroPacientes.forEach(function (value, key) {
-//     pacientes += 'numeroRegistro: ' + key +
-//         '\nnombreCompleto: ' + value.split('(')[0] +
-//         '\nnumeroSS: ' + value.split('(')[1].substring(0, 9) +
-//         '\ndireccion: ' + value.split('>')[1].substring(1) + "\n\n";
-// })
-
-// console.log(pacientes)
-
-
-// registroPacientes.forEach((value, key, map) => {
-
-//     console.log(`Paciente ${cont}`)
-//     console.log(`${key}: ${value}`); // cucumber: 500 etc
+//     pacientes.set(`Paciente ${cont}`, `\nnumeroRegistro: ${numeroRegistro}\nnombreCompleto: ${nombreCompleto}\nnumeroSS: ${numeroSS}\ndireccion: ${direccion}`)
 //     cont++
 // });
 
+// console.log(pacientes)
 
-// for (let clave of registroPacientes.keys) {
-//     console.log('numeroRegistro: ' + clave + '\nnombreCompleto: ')
-// }
-
-// for (let valor of registroPacientes.values()) {
-//     console.log(valor)
-// }
-
-
-
-
-
-
-
-
-// const paciente1 = new Map({ ['numeroRegistro:', ''], })
-
-
-
-
-
-
-// class Paciente {
-//     constructor(numeroRegistro, nombreCompleto, numeroSS, direccion) {
-//         this.numeroRegistro = numeroRegistro;
-//         this.nombreCompleto = nombreCompleto;
-//         this.numeroSS = numeroSS;
-//         this.direccion = direccion;
-//     }
-// }
-
-
-// const paciente1 = new Paciente();
-
-
-// console.log(paciente1)
