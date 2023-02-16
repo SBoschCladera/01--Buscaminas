@@ -25,56 +25,13 @@ function primerSelect() {
                 // Convertir la respuesta en un objeto JavaScript
                 arrayPaises = JSON.parse(this.responseText);
                 // Creamos un select con los países del mundo.
+               
                 crearSelect('mySelectPaises', 'mostrarResultadoCiudades(this.value)', 'divSelectPaises', 'Elige un país:', 'un país', arrayPaises);
             }
         }
     };
     return arrayPaises;
 }
-
-
-// function segundoSelect() {
-
-//     // Crear un objeto XMLHttpRequest()
-//     var xmlhttp = new XMLHttpRequest();
-
-//     // Abrir una conexión al archivo PHP que contiene la consulta a la base de datos
-//     xmlhttp.open('GET', './php/ciudades.php', true);
-
-//     // Especificar el tipo de datos que se espera recibir
-//     xmlhttp.setRequestHeader('Content-Type', 'application/json');
-
-//     // Enviar la solicitud
-//     xmlhttp.send();
-
-//     // Escuchar el evento readystatechange para detectar cuándo se ha recibido la respuesta
-//     xmlhttp.onreadystatechange = function () {
-//         if (this.readyState == 4 && this.status == 200) {
-//             // Comprobar que la respuesta contenga datos
-//             if (this.responseText) {
-
-//                 // Convertir la respuesta en un objeto JavaScript
-//                 arrayCiudades = JSON.parse(this.responseText);
-
-//             }
-//         }
-//     };
-//     return arrayCiudades;
-// }
-
-// function mostrarResultadoPaises(str) {
-//     if (str == "") {
-//         document.getElementById("salida").innerHTML = "";
-//         return;
-//     }
-//     const xhttp = new XMLHttpRequest();
-//     xhttp.onload = function () {
-//         document.getElementById("salida").innerHTML = this.responseText;
-
-//     }
-//     xhttp.open("GET", "php/paises.php?q=" + str);
-//     xhttp.send();
-// }
 
 
 // Crea y carga los valores de las ciudades del segundo select 
@@ -90,7 +47,31 @@ function mostrarResultadoCiudades(str) {
         arrayCiudades = JSON.parse(this.responseText);
         document.getElementById('divSelectCiudades').innerHTML = "";
 
-        crearSelect('mySelectCiudades', 'mostrarDatosCiudad(this.value)', 'divSelectCiudades', 'Elige una ciudad:', 'una ciudad', arrayCiudades);
+        //crearSelect('mySelectCiudades', 'mostrarDatosCiudad(this.value)', 'divSelectCiudades', 'Elige una ciudad:', 'una ciudad', arrayCiudades);
+
+        let label = document.createElement('label');
+        let contenidoLabel = document.createTextNode('Elige una ciudad: ');
+        label.appendChild(contenidoLabel);
+        document.getElementById('divSelectCiudades').appendChild(label);
+
+        let x = document.createElement("select");
+        x.setAttribute("id", 'mySelectCiudades');
+        x.setAttribute('onchange', 'mostrarDatosCiudad(this.value)')
+        document.getElementById('divSelectCiudades').appendChild(x);
+
+        let opcion = document.createElement("option");
+        opcion.setAttribute("value", 'ciudad');
+        let valor = document.createTextNode('Elige una ciudad');
+        opcion.appendChild(valor);
+        document.getElementById('mySelectCiudades').appendChild(opcion);
+
+        for (let i = 0; i < arrayCiudades.length; i++) {
+            let opcion = document.createElement("option");
+            opcion.setAttribute("value", arrayCiudades[i].name);
+            let valor = document.createTextNode(arrayCiudades[i].name);
+            opcion.appendChild(valor);
+            document.getElementById('mySelectCiudades').appendChild(opcion);
+        }
     }
     xhttp.open("GET", "php/ciudades.php?q=" + str);
     xhttp.send();
@@ -110,13 +91,19 @@ function mostrarDatosCiudad(str) {
 
         let x = document.getElementById("mySelectCiudades");
         let indice = x.selectedIndex;
-        document.getElementById('salida').innerHTML += '<h2>' + arrayCiudades[indice - 1].name + '</h2>';
-        document.getElementById('salida').innerHTML += '<p>Distrito: <b>' + arrayCiudades[indice - 1].district + '<b><p>';
-        document.getElementById('salida').innerHTML += '<p>Población: <b>' + arrayCiudades[indice - 1].population + '<b><p>';
 
-        document.getElementById('salida').style.border = "2px solid black";
+        if (indice > 0) {
+            document.getElementById('salida').innerHTML += '<h2>' + arrayCiudades[indice - 1].name + '</h2>';
+            document.getElementById('salida').innerHTML += '<p>Distrito: <b>' + arrayCiudades[indice - 1].district + '<b><p>';
+            document.getElementById('salida').innerHTML += '<p>Población: <b>' + arrayCiudades[indice - 1].population + '<b><p>';
 
+            document.getElementById('salida').style.border = "2px solid black";
+        } else {
+            document.getElementById('salida').innerHTML = '';
+            document.getElementById('salida').style.border = "none";
+        }
     }
+
     xhttp.open("GET", "php/ciudades.php?q=" + str);
     xhttp.send();
 }
