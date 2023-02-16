@@ -1,3 +1,4 @@
+// Muestra los datos recogidos en la consulta a base de datos
 function mostrarResultado(str) {
     if (str.length == 0) {
         document.getElementById("txtHint").innerHTML = "";

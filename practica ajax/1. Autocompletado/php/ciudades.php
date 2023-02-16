@@ -19,6 +19,7 @@ $q = $_REQUEST["q"];
 $sql = "SELECT Name FROM city where Name like '$q%'";
 $resultado = $conexion->query($sql);
 
+// Crea un array asociativo con la información recogida de la consulta a base de datos
 if ($resultado->num_rows > 0) {
   echo "<p>";
   while ($row = $resultado->fetch_assoc()) {
@@ -30,6 +31,5 @@ if ($resultado->num_rows > 0) {
   echo "0 results";
 }
 
-//var_dump($arrayCiudades);
 $conexion->close();
 ?>

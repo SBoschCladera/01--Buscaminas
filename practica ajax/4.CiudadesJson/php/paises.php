@@ -1,4 +1,5 @@
 <?php
+$arrayPaises = array();
 
 $servername = "localhost";
 $username = "root";
@@ -12,23 +13,21 @@ if ($conexion->connect_error) {
   die("Algo ha fallado en la conexión: " . $conexion->connect_error);
 }
 
-// Parámetro q de la URL
-$q = $_REQUEST["q"];
-
-$sql = "SELECT name FROM country where name like '$q%'";
+$sql = "SELECT Code, Name FROM country";
 $resultado = $conexion->query($sql);
 
-// Crea un tabla con la información recogida de la consulta a base de datos
+// Crea un array asociativo con los datos necesarios
 if ($resultado->num_rows > 0) {
-  echo "<table id='tabla'>";
-  echo "<tr><td>PAÍSES</td></tr>";
   while ($row = $resultado->fetch_assoc()) {
-    echo "<tr><td>" . $row["name"] . "</td></tr>";
+    $arrayPaises[] = array('id' => $row['Code'], 'name' => $row['Name']);
   }
-  echo "</table>";
 } else {
   echo "0 results";
 }
+
+header('Content-Type: application/json');
+// Codifica el array en formato JSON
+echo json_encode($arrayPaises);
 
 $conexion->close();
 ?>

@@ -1,141 +1,134 @@
-// Declaración de variables
-let arrayPaises = [];
-let arrayCiudades = [];
-
 // Carga el valor de los option del select para elegir un país.
 function primerSelect() {
 
-    // Crear un objeto XMLHttpRequest()
-    var xmlhttp = new XMLHttpRequest();
-
-    // Abrir una conexión al archivo PHP que contiene la consulta a la base de datos
-    xmlhttp.open('GET', './php/paises.php', true);
-
-    // Especificar el tipo de datos que se espera recibir
-    xmlhttp.setRequestHeader('Content-Type', 'application/json');
-
-    // Enviar la solicitud
-    xmlhttp.send();
-
-    // Escuchar el evento readystatechange para detectar cuándo se ha recibido la respuesta
-    xmlhttp.onreadystatechange = function () {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            // Comprobar que la respuesta contenga datos
-            if (this.responseText) {
-                // Convertir la respuesta en un objeto JavaScript
-                arrayPaises = JSON.parse(this.responseText);
-                // Creamos un select con los países del mundo.
-               
-                crearSelect('mySelectPaises', 'mostrarResultadoCiudades(this.value)', 'divSelectPaises', 'Elige un país:', 'un país', arrayPaises);
+            // El XML se ha cargado correctamente
+            const xmlDoc = this.responseXML;
+
+            // Crea el elemento select y sus opciones
+            let select = document.createElement("select");
+            select.setAttribute('onchange', 'mostrarResultadoCiudades(this.value)');
+            let options = xmlDoc.getElementsByTagName("pais");
+
+            let option = document.createElement("option");
+            option.value = 'pais';
+            option.text = 'Elige un país';
+            select.appendChild(option);
+
+            let label = document.createElement('label');
+            let contenidoLabel = document.createTextNode('Elige un país: ');
+            label.appendChild(contenidoLabel);
+            document.getElementById('divSelectPaises').appendChild(label);
+
+            for (let i = 0; i < options.length; i++) {
+
+                let nombre = options[i].lastChild.textContent;
+                let id = options[i].firstChild.textContent;
+
+                let option = document.createElement("option");
+                option.value = id;
+                option.text = nombre;
+                select.appendChild(option);
             }
+            document.getElementById('divSelectPaises').appendChild(select);
         }
     };
-    return arrayPaises;
+    xhttp.open("GET", "./php/paises.php", true);
+    xhttp.send();
 }
 
-
-// Crea y carga los valores de las ciudades del segundo select 
+// Crea y carga los valores de las ciudades del segundo select
 function mostrarResultadoCiudades(str) {
+    document.getElementById('divSelectCiudades').innerHTML = "";
+
     if (str == "") {
         document.getElementById("salida").innerHTML = "";
         return;
     }
     const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // El XML se ha cargado correctamente
+            const xmlDoc = this.responseXML;
 
-        //document.getElementById("salida").innerHTML = this.responseText;
-        arrayCiudades = JSON.parse(this.responseText);
-        document.getElementById('divSelectCiudades').innerHTML = "";
+            // Crea el elemento select y sus opciones
+            let select = document.createElement("select");
+            select.id = "mySelectCiudades";
+            select.setAttribute('onchange', 'mostrarDatosCiudad(this.value)')
+            let options = xmlDoc.getElementsByTagName("ciudad");
 
-        //crearSelect('mySelectCiudades', 'mostrarDatosCiudad(this.value)', 'divSelectCiudades', 'Elige una ciudad:', 'una ciudad', arrayCiudades);
+            let option = document.createElement("option");
+            option.value = 'ciudad';
+            option.text = 'Elige una ciudad';
+            select.appendChild(option);
 
-        let label = document.createElement('label');
-        let contenidoLabel = document.createTextNode('Elige una ciudad: ');
-        label.appendChild(contenidoLabel);
-        document.getElementById('divSelectCiudades').appendChild(label);
+            let label = document.createElement('label');
+            let contenidoLabel = document.createTextNode('Elige una ciudad: ');
+            label.appendChild(contenidoLabel);
+            document.getElementById('divSelectCiudades').appendChild(label);
 
-        let x = document.createElement("select");
-        x.setAttribute("id", 'mySelectCiudades');
-        x.setAttribute('onchange', 'mostrarDatosCiudad(this.value)')
-        document.getElementById('divSelectCiudades').appendChild(x);
+            for (let i = 0; i < options.length; i++) {
 
-        let opcion = document.createElement("option");
-        opcion.setAttribute("value", 'ciudad');
-        let valor = document.createTextNode('Elige una ciudad');
-        opcion.appendChild(valor);
-        document.getElementById('mySelectCiudades').appendChild(opcion);
+                let id = options[i].childNodes[0].textContent;
+                let nombre = options[i].childNodes[1].textContent;
 
-        for (let i = 0; i < arrayCiudades.length; i++) {
-            let opcion = document.createElement("option");
-            opcion.setAttribute("value", arrayCiudades[i].name);
-            let valor = document.createTextNode(arrayCiudades[i].name);
-            opcion.appendChild(valor);
-            document.getElementById('mySelectCiudades').appendChild(opcion);
+                let option = document.createElement("option");
+                option.value = id;
+                option.text = nombre;
+                select.appendChild(option);
+            }
+            document.getElementById('divSelectCiudades').appendChild(select);
         }
-    }
+    };
     xhttp.open("GET", "php/ciudades.php?q=" + str);
     xhttp.send();
+
 }
 
 // Muestra los datos de salida de la ciudad seleccionada
 function mostrarDatosCiudad(str) {
 
-    document.getElementById('salida').innerHTML = "";
+    document.getElementById("salida").innerHTML = "";
+
+    let x = document.getElementById("mySelectCiudades");
+    let indice = x.selectedIndex;
 
     if (str == "") {
         document.getElementById("salida").innerHTML = "";
         return;
     }
     const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // El XML se ha cargado correctamente
+            const xmlDoc = this.responseXML;
 
-        let x = document.getElementById("mySelectCiudades");
-        let indice = x.selectedIndex;
+            // Recupera  todos los tags CIUDAD del xml
+            let options = xmlDoc.getElementsByTagName("ciudad");
 
-        if (indice > 0) {
-            document.getElementById('salida').innerHTML += '<h2>' + arrayCiudades[indice - 1].name + '</h2>';
-            document.getElementById('salida').innerHTML += '<p>Distrito: <b>' + arrayCiudades[indice - 1].district + '<b><p>';
-            document.getElementById('salida').innerHTML += '<p>Población: <b>' + arrayCiudades[indice - 1].population + '<b><p>';
+            let id = options[indice - 1].childNodes[0].textContent;
+            let nombre = options[indice - 1].childNodes[1].textContent;
+            let distrito = options[indice - 1].childNodes[2].textContent;
+            let poblacion = options[indice - 1].childNodes[3].textContent;
 
-            document.getElementById('salida').style.border = "2px solid black";
-        } else {
-            document.getElementById('salida').innerHTML = '';
-            document.getElementById('salida').style.border = "none";
+            if (indice > 0) {
+                document.getElementById('salida').innerHTML += '<h2>' + nombre + '</h2>';
+                document.getElementById('salida').innerHTML += '<p>Distrito: <span>' + distrito + '</span><p>';
+                document.getElementById('salida').innerHTML += '<p>Población: <span>' + poblacion + '</span><p>';
+
+                document.getElementById('salida').style.border = "2px solid black";
+            } else {
+                document.getElementById('salida').innerHTML = '';
+                document.getElementById('salida').style.border = "none";
+            }
         }
-    }
 
+
+    };
     xhttp.open("GET", "php/ciudades.php?q=" + str);
     xhttp.send();
-}
-
-
-// Crea un select según parámetros
-function crearSelect(id, evento, salida, textoLabel, valorPrimeraOpcion, arrayDatos) {
-    let total = arrayPaises.length;
-
-    let label = document.createElement('label');
-    let contenidoLabel = document.createTextNode(textoLabel);
-    label.appendChild(contenidoLabel);
-    document.getElementById(salida).appendChild(label);
-
-    let x = document.createElement("SELECT");
-    x.setAttribute("id", id);
-    x.setAttribute('onchange', evento)
-    document.getElementById(salida).appendChild(x);
-
-    let opcion = document.createElement("option");
-    opcion.setAttribute("value", 'pais');
-    let valor = document.createTextNode('Elige ' + valorPrimeraOpcion);
-    opcion.appendChild(valor);
-    document.getElementById(id).appendChild(opcion);
-
-    for (let i = 0; i < total; i++) {
-        let opcion = document.createElement("option");
-        opcion.setAttribute("value", arrayDatos[i].id);
-        let valor = document.createTextNode(arrayDatos[i].name);
-        opcion.appendChild(valor);
-        document.getElementById(id).appendChild(opcion);
-    }
 }
 
 window.onload = function () {

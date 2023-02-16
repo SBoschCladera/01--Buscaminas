@@ -1,5 +1,7 @@
+// Array con las letras del Abecedario
 let letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+// Muestra los datos recogidos en la consulta a base de datos
 function mostrarResultado(str) {
     if (str == "") {
         document.getElementById("salida").innerHTML = "";
@@ -13,6 +15,7 @@ function mostrarResultado(str) {
     xhttp.send();
 }
 
+//Crea un select con sus opciones
 function crearSelect(id, salida) {
 
     let x = document.createElement("SELECT");
@@ -37,6 +40,5 @@ function crearSelect(id, salida) {
 }
 
 window.onload = function () {
-
     crearSelect('mySelect', 'divSelect');
 }
