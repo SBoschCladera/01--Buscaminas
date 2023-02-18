@@ -1,0 +1,1 @@
+Las aplicaciones está testeadas como localhost en el directorio c:/xampp/htdocs/

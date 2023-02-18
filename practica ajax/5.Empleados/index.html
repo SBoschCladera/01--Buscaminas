@@ -7,31 +7,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD</title>
     <link rel="stylesheet" href="css/estilos.css">
+    <script src="js/emp.js"></script>
 </head>
 
 <body>
-    <h1>AJAX - Empleados</h1><br>
-    <label for="numEmpleado">Num Empleado</label>
-    <select name="numeroEmpleado" id="numEmp"></select><br><br>
-    <label for="apellidosEmpleado">Apellidos</label>
-    <select name="apellidos" id="apellidos"></select><br><br>
-    <label for="oficioEmpleado">Oficio</label>
-    <select name="oficioEmpleado" id="oficio"></select><br><br>
-    <label for="directorEmp">Director</label>
-    <select name="directorEmpleado" id="director"></select><br><br>
-    <label for="fechaAlta">Fecha de Alta</label>
-    <select name="fechaAltaEmpleado" id="fecha"></select><br><br>
-    <label for="salario">Salario</label>
-    <select name="salarioEmpleado" id="salario"></select><br><br>
-    <label for="comisionEmpleado">Comisión</label>
-    <select name="comisionEmp" id="comision"></select><br><br>
-    <label for="departamentEmpleado">Departamento</label>
-    <select name="departamentoEmp" id="departamento"></select><br><br>
-    <input type="button" id="nuevo" value="Nuevo">
-    <input type="button" id="guardar" value="Guardar">
-    <input type="button" id="eliminar" value="Eliminar">
-    <input type="button" id="filtro" value="Filtro">
+    <div id="contenedor">
+        <div id="formulario">
+            <h1>AJAX - Empleados</h1><br>
+            <label for="numEmpleado">Num Empleado</label>
+            <select name="numeroEmpleado" id="numEmp" onchange="datosEmpleado()">
+                <option value="eligeNum">emp_no</option>
+            </select><br><br>
+            <label for="apellidosEmpleado">Apellidos</label>
+            <input type="text" id="apellidos"><br><br>
+            <label for="oficioEmpleado">Oficio</label>
+            <input type="text" id="oficio"><br><br>
+            <label for="directorEmp">Director</label>
+            <select name="directorEmpleado" id="director">
+                <option value="jefe">Elige un jefe</option>
+            </select><br><br>
+            <label for="fechaAlta">Fecha de Alta</label>
+            <input type="date" id="fechaAlta" value=""><br><br>
+            <label for="salario">Salario</label>
+            <select name="salarioEmpleado" id="salario">
+                <option value="salario">Elige un salario</option>
+            </select><br><br>
+            <label for="comisionEmpleado">Comisión</label>
+            <select name="comisionEmp" id="comision">
+                <option value="comision">Elige una comisión</option>
+            </select><br><br>
+            <label for="departamentEmpleado">Departamento</label>
+            <select name="departamentoEmp" id="departamento">
+                <option value="departamento">Elige un departamento</option>
 
+            </select><br><br>
+            <button type="button" id="nuevo" class="boton" onclick="nuevoRegistro()">Nuevo</button>
+            <button type="button" id="guardar" class="boton" onclick="updateRegistro(id)">Guardar</button>
+            <button type="button" id="eliminar" class="boton" onclick="borrarRegistro(id)">Eliminar</button>
+            <button type="button" id="filtro" class="boton" onclick="mostrarFiltro()">Filtro</button>
+        </div>
+        <div id="tabla">
+            <div id="salida"></div>
+        </div>
+    </div>
 </body>
 
 </html>

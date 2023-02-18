@@ -33,9 +33,11 @@ function primerSelect() {
     return arrayPaises;
 }
 
-
 // Crea y carga los valores de las ciudades del segundo select 
 function mostrarResultadoCiudades(str) {
+    document.getElementById('salida').innerHTML = "";
+    document.getElementById('salida').style.border = "";
+
     if (str == "") {
         document.getElementById("salida").innerHTML = "";
         return;

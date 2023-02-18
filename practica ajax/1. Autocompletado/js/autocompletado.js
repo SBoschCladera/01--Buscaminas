@@ -6,7 +6,7 @@ function mostrarResultado(str) {
     } else {
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onload = function () {
-            document.getElementById("txtHint").innerHTML = this.responseText;
+            document.getElementById("txtHint").innerHTML = '<p>' + this.responseText + '</p>';
         }
         xmlhttp.open("GET", "./php/ciudades.php?q=" + str);
         xmlhttp.send();

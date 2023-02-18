@@ -1,4 +1,5 @@
 <?php
+$arrayPaises = array();
 
 $servername = "localhost";
 $username = "root";
@@ -20,15 +21,16 @@ $resultado = $conexion->query($sql);
 
 // Crea un tabla con la información recogida de la consulta a base de datos
 if ($resultado->num_rows > 0) {
-  echo "<table id='tabla'>";
-  echo "<tr><td>PAÍSES</td></tr>";
   while ($row = $resultado->fetch_assoc()) {
-    echo "<tr><td>" . $row["name"] . "</td></tr>";
+    $arrayPaises[] = array('nombre' => $row["name"]);
   }
-  echo "</table>";
 } else {
   echo "0 results";
 }
+
+header('Content-Type: application/json');
+// Codifica el array en formato JSON
+echo json_encode($arrayPaises);
 
 $conexion->close();
 ?>

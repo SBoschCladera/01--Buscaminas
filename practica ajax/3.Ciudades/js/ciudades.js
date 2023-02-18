@@ -42,6 +42,8 @@ function primerSelect() {
 // Crea y carga los valores de las ciudades del segundo select
 function mostrarResultadoCiudades(str) {
     document.getElementById('divSelectCiudades').innerHTML = "";
+    document.getElementById('salida').innerHTML = "";
+    document.getElementById('salida').style.border = "";
 
     if (str == "") {
         document.getElementById("salida").innerHTML = "";
